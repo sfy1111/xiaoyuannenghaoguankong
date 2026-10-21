@@ -1,0 +1,19 @@
+{
+  "source": "饮食服务中心一卡通消费流水月度汇总（人工复核）",
+  "canteenMeals": [
+    { "canteenId": "B-C1", "month": "2026-04", "meals": 372400 },
+    { "canteenId": "B-C1", "month": "2026-05", "meals": 380200 },
+    { "canteenId": "B-C1", "month": "2026-06", "meals": 361800 },
+    { "canteenId": "B-C1", "month": "2026-07", "meals": 98500 },
+    { "canteenId": "B-C1", "month": "2026-08", "meals": 121600 },
+    { "canteenId": "B-C1", "month": "2026-09", "meals": 369500 },
+    { "canteenId": "B-C1", "month": "2026-10", "meals": 284300 },
+    { "canteenId": "B-C2", "month": "2026-04", "meals": 241800 },
+    { "canteenId": "B-C2", "month": "2026-05", "meals": 247600 },
+    { "canteenId": "B-C2", "month": "2026-06", "meals": 233900 },
+    { "canteenId": "B-C2", "month": "2026-07", "meals": 0 },
+    { "canteenId": "B-C2", "month": "2026-08", "meals": 0 },
+    { "canteenId": "B-C2", "month": "2026-09", "meals": 238700 },
+    { "canteenId": "B-C2", "month": "2026-10", "meals": 184600 }
+  ]
+}

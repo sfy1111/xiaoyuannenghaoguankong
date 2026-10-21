@@ -1,0 +1,30 @@
+[
+  {
+    "id": "C-E",
+    "code": "MC-E",
+    "name": "东校区",
+    "address": "明川市学府路1号",
+    "area": 486000,
+    "teachingArea": 92000,
+    "dormArea": 31000,
+    "inUseDate": "2001-09-01",
+    "status": "active",
+    "studentCount": 11200,
+    "energyEntrances": ["东校区一号进线", "东校区二号进线", "东校区总进水"],
+    "coord": { "lng": 118.796, "lat": 32.061 }
+  },
+  {
+    "id": "C-W",
+    "code": "MC-W",
+    "name": "西校区",
+    "address": "明川市学苑大道88号",
+    "area": 352000,
+    "teachingArea": 74000,
+    "dormArea": 22000,
+    "inUseDate": "2012-09-01",
+    "status": "active",
+    "studentCount": 7400,
+    "energyEntrances": ["西校区一号进线", "西校区总进水"],
+    "coord": { "lng": 118.782, "lat": 32.048 }
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "schoolName": "明川大学",
+  "systemName": "明川大学校园能耗管理系统",
+  "dataVersion": "v1.0",
+  "asOf": "2026-10-21T08:00:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "statisticalBoundary": "校区购入边界（总进线/总进水）与建筑主表边界分别统计，分表仅作分项，不与总表重复相加",
+  "dataWindow": {
+    "start": "2025-09-01",
+    "end": "2026-10-21",
+    "note": "演示数据集统一时间窗，各页面默认统计范围基于该窗口"
+  },
+  "features": {
+    "electricity": true,
+    "water": true,
+    "gas": true,
+    "heat": true,
+    "cooling": true,
+    "hotWater": true,
+    "pv": false
+  },
+  "notes": [
+    "电价测算仅含分时电度费，不含基本电费、需量费与税费",
+    "水价含水资源费与污水处理费",
+    "未配置能源折标系数，综合能耗不展示折标煤数值"
+  ]
+}

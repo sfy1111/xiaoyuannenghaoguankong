@@ -1,0 +1,22 @@
+[
+  { "id": "R-AD-1", "buildingId": "B-AD", "departmentId": "D-XGB", "share": 0.4, "basis": "建筑面积分摊", "validFrom": "2016-01-01", "status": "confirmed" },
+  { "id": "R-AD-2", "buildingId": "B-AD", "departmentId": "D-JWC", "share": 0.2, "basis": "建筑面积分摊", "validFrom": "2016-01-01", "status": "confirmed" },
+  { "id": "R-AD-3", "buildingId": "B-AD", "departmentId": "D-FIN", "share": 0.15, "basis": "建筑面积分摊", "validFrom": "2016-01-01", "status": "confirmed" },
+  { "id": "R-AD-4", "buildingId": "B-AD", "departmentId": "D-XSC", "share": 0.15, "basis": "建筑面积分摊", "validFrom": "2016-01-01", "status": "confirmed" },
+  { "id": "R-AD-5", "buildingId": "B-AD", "departmentId": "D-SEC", "share": 0.1, "basis": "建筑面积分摊", "validFrom": "2016-01-01", "status": "confirmed" },
+  { "id": "R-TA-1", "buildingId": "B-TA", "departmentId": "D-JWC", "share": 1, "basis": "独立计量实测", "validFrom": "2003-09-01", "status": "confirmed" },
+  { "id": "R-TB-1", "buildingId": "B-TB", "departmentId": "D-JWC", "share": 1, "basis": "独立计量实测", "validFrom": "2005-09-01", "status": "confirmed" },
+  { "id": "R-LC-1", "buildingId": "B-LC", "departmentId": "D-ME", "share": 1, "basis": "独立计量实测", "validFrom": "2010-09-01", "status": "confirmed" },
+  { "id": "R-LE-1", "buildingId": "B-LE", "departmentId": "D-IE", "share": 1, "basis": "独立计量实测", "validFrom": "2013-09-01", "status": "confirmed" },
+  { "id": "R-LIB-1", "buildingId": "B-LIB", "departmentId": "D-LIB", "share": 1, "basis": "独立计量实测", "validFrom": "2008-01-01", "status": "confirmed" },
+  { "id": "R-IC-1", "buildingId": "B-IC", "departmentId": "D-IT", "share": 1, "basis": "独立计量实测", "validFrom": "2015-01-01", "status": "confirmed" },
+  { "id": "R-GY-1", "buildingId": "B-GY", "departmentId": "D-PE", "share": 1, "basis": "独立计量实测", "validFrom": "2011-06-01", "status": "confirmed" },
+  { "id": "R-C1-1", "buildingId": "B-C1", "departmentId": "D-CAN", "share": 1, "basis": "独立计量实测", "validFrom": "2002-01-01", "status": "confirmed" },
+  { "id": "R-C2-1", "buildingId": "B-C2", "departmentId": "D-CAN", "share": 1, "basis": "独立计量实测", "validFrom": "2012-01-01", "status": "confirmed" },
+  { "id": "R-D1-1", "buildingId": "B-D1", "departmentId": "D-XSC", "share": 1, "basis": "楼栋计量实测", "validFrom": "2001-09-01", "status": "confirmed" },
+  { "id": "R-D2-1", "buildingId": "B-D2", "departmentId": "D-XSC", "share": 1, "basis": "楼栋计量实测", "validFrom": "2001-09-01", "status": "confirmed" },
+  { "id": "R-D3-1", "buildingId": "B-D3", "departmentId": "D-XSC", "share": 1, "basis": "楼栋计量实测", "validFrom": "2012-09-01", "status": "confirmed" },
+  { "id": "R-LO-1", "buildingId": "B-LO", "departmentId": "D-HQC", "share": 1, "basis": "独立计量实测", "validFrom": "2012-01-01", "status": "confirmed" },
+  { "id": "R-EP-1", "buildingId": "B-EP", "departmentId": "D-HQC", "share": 1, "basis": "独立计量实测", "validFrom": "2012-01-01", "status": "confirmed" },
+  { "id": "R-TD-1", "buildingId": "B-TD", "departmentId": "D-JWC", "share": 1, "basis": "独立计量实测", "validFrom": "2012-09-01", "status": "confirmed" }
+]

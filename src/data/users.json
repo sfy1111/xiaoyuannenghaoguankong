@@ -1,0 +1,9 @@
+[
+  { "id": "U-ZHANG", "account": "zhangqm", "name": "张启明", "title": "后勤保障处能源管理办公室主任", "roleId": "R-DIRECTOR", "departmentId": "D-HQC", "phone": "138****1201", "status": "active", "lastLogin": "2026-10-21 07:40", "authType": "统一身份认证" },
+  { "id": "U-LI", "account": "liwenyuan", "name": "李文渊", "title": "副校长", "roleId": "R-LEADER", "departmentId": "D-XGB", "phone": "139****2033", "status": "active", "lastLogin": "2026-10-20 16:20", "authType": "统一身份认证" },
+  { "id": "U-WANG", "account": "wangjianguo", "name": "王建国", "title": "能源管理办公室工程师", "roleId": "R-MANAGER", "departmentId": "D-HQC", "phone": "137****3345", "status": "active", "lastLogin": "2026-10-21 08:10", "authType": "统一身份认证" },
+  { "id": "U-ZHAO", "account": "zhaochunmei", "name": "赵春梅", "title": "财务处核算科科长", "roleId": "R-FINANCE", "departmentId": "D-FIN", "phone": "136****8812", "status": "active", "lastLogin": "2026-10-20 15:05", "authType": "统一身份认证" },
+  { "id": "U-CHEN", "account": "chenzhiqiang", "name": "陈志强", "title": "物业运维班组长", "roleId": "R-OPERATION", "departmentId": "D-HQC", "phone": "135****6790", "status": "active", "lastLogin": "2026-10-21 07:55", "authType": "统一身份认证" },
+  { "id": "U-LIU", "account": "liuxiaodong", "name": "刘晓东", "title": "机械工程学院办公室主任", "roleId": "R-LIAISON", "departmentId": "D-ME", "phone": "133****4521", "status": "active", "lastLogin": "2026-10-19 11:30", "authType": "统一身份认证" },
+  { "id": "U-XU", "account": "xuming", "name": "徐明", "title": "信息化建设办公室系统管理员", "roleId": "R-ADMIN", "departmentId": "D-IT", "phone": "132****9087", "status": "active", "lastLogin": "2026-10-21 08:00", "authType": "统一身份认证" }
+]

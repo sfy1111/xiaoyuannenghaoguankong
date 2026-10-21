@@ -1,0 +1,20 @@
+{
+  "year": 2026,
+  "approvedBy": "赵春梅",
+  "approvedAt": "2026-01-20",
+  "note": "按能源品种月度分配，含季节性修正；预测值为截至最新数据月的执行趋势外推（建议值）",
+  "monthlyBudget": [
+    { "month": "2026-01", "electricity": 250000, "water": 90000, "gas": 150000 },
+    { "month": "2026-02", "electricity": 230000, "water": 80000, "gas": 145000 },
+    { "month": "2026-03", "electricity": 245000, "water": 88000, "gas": 100000 },
+    { "month": "2026-04", "electricity": 240000, "water": 92000, "gas": 55000 },
+    { "month": "2026-05", "electricity": 250000, "water": 95000, "gas": 48000 },
+    { "month": "2026-06", "electricity": 260000, "water": 95000, "gas": 45000 },
+    { "month": "2026-07", "electricity": 225000, "water": 78000, "gas": 40000 },
+    { "month": "2026-08", "electricity": 235000, "water": 80000, "gas": 38000 },
+    { "month": "2026-09", "electricity": 265000, "water": 100000, "gas": 58000 },
+    { "month": "2026-10", "electricity": 270000, "water": 98000, "gas": 60000 },
+    { "month": "2026-11", "electricity": 250000, "water": 92000, "gas": 130000 },
+    { "month": "2026-12", "electricity": 255000, "water": 90000, "gas": 150000 }
+  ]
+}

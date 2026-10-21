@@ -1,0 +1,42 @@
+{
+  "source": "学生工作处、教务处学期注册统计（月度快照）",
+  "monthlyStudents": [
+    { "month": "2025-09", "east": 11160, "west": 7360 },
+    { "month": "2025-10", "east": 11180, "west": 7390 },
+    { "month": "2025-11", "east": 11180, "west": 7390 },
+    { "month": "2025-12", "east": 11190, "west": 7400 },
+    { "month": "2026-01", "east": 4120, "west": 2680 },
+    { "month": "2026-02", "east": 4230, "west": 2760 },
+    { "month": "2026-03", "east": 11170, "west": 7380 },
+    { "month": "2026-04", "east": 11190, "west": 7400 },
+    { "month": "2026-05", "east": 11200, "west": 7400 },
+    { "month": "2026-06", "east": 11200, "west": 7410 },
+    { "month": "2026-07", "east": 3560, "west": 2310 },
+    { "month": "2026-08", "east": 4890, "west": 3140 },
+    { "month": "2026-09", "east": 11200, "west": 7400 },
+    { "month": "2026-10", "east": 11210, "west": 7410 }
+  ],
+  "dormOccupancy": [
+    { "buildingId": "B-D1", "month": "2026-04", "occupancyRate": 0.98, "residents": 1030 },
+    { "buildingId": "B-D1", "month": "2026-05", "occupancyRate": 0.97, "residents": 1020 },
+    { "buildingId": "B-D1", "month": "2026-06", "occupancyRate": 0.96, "residents": 1010 },
+    { "buildingId": "B-D1", "month": "2026-07", "occupancyRate": 0.32, "residents": 336 },
+    { "buildingId": "B-D1", "month": "2026-08", "occupancyRate": 0.42, "residents": 441 },
+    { "buildingId": "B-D1", "month": "2026-09", "occupancyRate": 0.99, "residents": 1040 },
+    { "buildingId": "B-D1", "month": "2026-10", "occupancyRate": 0.98, "residents": 1030 },
+    { "buildingId": "B-D2", "month": "2026-04", "occupancyRate": 0.97, "residents": 950 },
+    { "buildingId": "B-D2", "month": "2026-05", "occupancyRate": 0.96, "residents": 940 },
+    { "buildingId": "B-D2", "month": "2026-06", "occupancyRate": 0.95, "residents": 930 },
+    { "buildingId": "B-D2", "month": "2026-07", "occupancyRate": 0.30, "residents": 294 },
+    { "buildingId": "B-D2", "month": "2026-08", "occupancyRate": 0.40, "residents": 392 },
+    { "buildingId": "B-D2", "month": "2026-09", "occupancyRate": 0.98, "residents": 960 },
+    { "buildingId": "B-D2", "month": "2026-10", "occupancyRate": 0.97, "residents": 950 },
+    { "buildingId": "B-D3", "month": "2026-04", "occupancyRate": 0.97, "residents": 1145 },
+    { "buildingId": "B-D3", "month": "2026-05", "occupancyRate": 0.96, "residents": 1130 },
+    { "buildingId": "B-D3", "month": "2026-06", "occupancyRate": 0.95, "residents": 1120 },
+    { "buildingId": "B-D3", "month": "2026-07", "occupancyRate": 0.33, "residents": 390 },
+    { "buildingId": "B-D3", "month": "2026-08", "occupancyRate": 0.43, "residents": 507 },
+    { "buildingId": "B-D3", "month": "2026-09", "occupancyRate": 0.99, "residents": 1168 },
+    { "buildingId": "B-D3", "month": "2026-10", "occupancyRate": 0.98, "residents": 1156 }
+  ]
+}

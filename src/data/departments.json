@@ -1,0 +1,14 @@
+[
+  { "id": "D-XGB", "code": "ORG-01", "name": "校办公室", "parent": null, "type": "管理部门", "manager": "周明远", "phone": "025-8816xxxx", "campusIds": ["C-E"], "costCenter": "CC-1001", "validFrom": "2001-09-01" },
+  { "id": "D-JWC", "code": "ORG-02", "name": "教务处", "parent": null, "type": "管理部门", "manager": "吴兰", "phone": "025-8816xxxx", "campusIds": ["C-E", "C-W"], "costCenter": "CC-1002", "validFrom": "2001-09-01" },
+  { "id": "D-HQC", "code": "ORG-03", "name": "后勤保障处", "parent": null, "type": "管理部门", "manager": "张启明", "phone": "025-8816xxxx", "campusIds": ["C-E", "C-W"], "costCenter": "CC-1003", "validFrom": "2001-09-01" },
+  { "id": "D-XSC", "code": "ORG-04", "name": "学生工作处", "parent": null, "type": "管理部门", "manager": "何静", "phone": "025-8816xxxx", "campusIds": ["C-E", "C-W"], "costCenter": "CC-1004", "validFrom": "2001-09-01" },
+  { "id": "D-CAN", "code": "ORG-05", "name": "饮食服务中心", "parent": "D-HQC", "type": "后勤服务", "manager": "马国栋", "phone": "025-8816xxxx", "campusIds": ["C-E", "C-W"], "costCenter": "CC-1005", "validFrom": "2001-09-01" },
+  { "id": "D-FIN", "code": "ORG-06", "name": "财务处", "parent": null, "type": "管理部门", "manager": "赵春梅", "phone": "025-8816xxxx", "campusIds": ["C-E", "C-W"], "costCenter": "CC-1006", "validFrom": "2001-09-01" },
+  { "id": "D-LIB", "code": "ORG-07", "name": "图书馆", "parent": null, "type": "教学辅助", "manager": "林文君", "phone": "025-8816xxxx", "campusIds": ["C-E"], "costCenter": "CC-1007", "validFrom": "2001-09-01" },
+  { "id": "D-IT", "code": "ORG-08", "name": "信息化建设办公室", "parent": null, "type": "管理部门", "manager": "徐子昂", "phone": "025-8816xxxx", "campusIds": ["C-E"], "costCenter": "CC-1008", "validFrom": "2015-01-01" },
+  { "id": "D-PE", "code": "ORG-09", "name": "体育教学部", "parent": null, "type": "教学单位", "manager": "高原", "phone": "025-8816xxxx", "campusIds": ["C-E"], "costCenter": "CC-1009", "validFrom": "2001-09-01" },
+  { "id": "D-ME", "code": "ORG-10", "name": "机械工程学院", "parent": null, "type": "学院", "manager": "郑怀远", "phone": "025-8816xxxx", "campusIds": ["C-E"], "costCenter": "CC-1010", "validFrom": "2001-09-01" },
+  { "id": "D-IE", "code": "ORG-11", "name": "信息工程学院", "parent": null, "type": "学院", "manager": "方永刚", "phone": "025-8816xxxx", "campusIds": ["C-W"], "costCenter": "CC-1011", "validFrom": "2012-09-01" },
+  { "id": "D-SEC", "code": "ORG-12", "name": "保卫处", "parent": null, "type": "管理部门", "manager": "石磊", "phone": "025-8816xxxx", "campusIds": ["C-E", "C-W"], "costCenter": "CC-1012", "validFrom": "2001-09-01" }
+]

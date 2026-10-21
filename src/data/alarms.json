@@ -1,0 +1,142 @@
+[
+  {
+    "id": "AL-2026-0412",
+    "code": "ALM-202610-0412",
+    "title": "兰园1号公寓夜间持续用水异常",
+    "time": "2026-10-18 06:00",
+    "campusId": "C-E",
+    "buildingId": "B-D1",
+    "pointId": "P-D1-W",
+    "energyType": "water",
+    "ruleId": "AR-WATERNIGHT",
+    "severity": "major",
+    "detectedValue": "10-12至10-18连续7日夜间最小流量2.6~3.1 m³/h",
+    "threshold": "1.5 m³/h（连续3日）",
+    "status": "processing",
+    "handler": "陈志强",
+    "isFalse": false,
+    "workOrderId": "WO-2026-0421",
+    "timeline": [
+      { "time": "2026-10-18 06:00", "actor": "系统", "action": "触发告警", "note": "连续7日夜间最小流量超限，达到夜间最小流量规则阈值" },
+      { "time": "2026-10-18 09:15", "actor": "王建国", "action": "确认告警", "note": "确认非采集故障，兰园片区近期无大面积维修，疑似管网漏损或阀门未关" },
+      { "time": "2026-10-18 09:40", "actor": "王建国", "action": "派发工单", "note": "生成工单WO-2026-0421，指派物业运维陈志强现场排查" }
+    ]
+  },
+  {
+    "id": "AL-2026-0413",
+    "code": "ALM-202610-0413",
+    "title": "致知楼国庆假期日间用电异常偏高",
+    "time": "2026-10-05 16:00",
+    "campusId": "C-E",
+    "buildingId": "B-TB",
+    "pointId": "P-TB-M",
+    "energyType": "electricity",
+    "ruleId": "AR-NONTEACH",
+    "severity": "major",
+    "detectedValue": "10-03至10-05日间小时用电2.1倍于假期基线，日用电量约为假期基线2.1倍",
+    "threshold": "假期基线×1.8（连续3小时）",
+    "status": "pending",
+    "handler": null,
+    "isFalse": false,
+    "workOrderId": null,
+    "timeline": [
+      { "time": "2026-10-05 16:00", "actor": "系统", "action": "触发告警", "note": "国庆假期期间日间负荷持续高于假期合理基线，触发非教学时间高能耗规则" }
+    ]
+  },
+  {
+    "id": "AL-2026-0407",
+    "code": "ALM-202609-0407",
+    "title": "兰园2号公寓水表采集离线",
+    "time": "2026-09-20 04:00",
+    "campusId": "C-E",
+    "buildingId": "B-D2",
+    "pointId": "P-D2-W",
+    "energyType": "water",
+    "ruleId": "AR-OFFLINE",
+    "severity": "minor",
+    "detectedValue": "超过2个采样周期无有效数据，累计离线28小时",
+    "threshold": "2个采样周期",
+    "status": "closed",
+    "handler": "陈志强",
+    "isFalse": false,
+    "workOrderId": "WO-2026-0411",
+    "timeline": [
+      { "time": "2026-09-20 04:00", "actor": "系统", "action": "触发告警", "note": "采集网关无有效数据上报" },
+      { "time": "2026-09-20 08:30", "actor": "王建国", "action": "确认告警", "note": "现场核实为采集网关电源故障" },
+      { "time": "2026-09-20 08:45", "actor": "王建国", "action": "派发工单", "note": "生成工单WO-2026-0411，指派物业运维检修网关" },
+      { "time": "2026-09-21 07:00", "actor": "陈志强", "action": "提交处理结果", "note": "更换网关电源模块，链路恢复，缺数时段已提交人工补录申请" },
+      { "time": "2026-09-21 10:00", "actor": "张启明", "action": "复核关闭", "note": "数据链路恢复，补录按流程审批，同意关闭" }
+    ]
+  },
+  {
+    "id": "AL-2026-0409",
+    "code": "ALM-202610-0409",
+    "title": "格物楼实验设备用电突增（核实为正常使用）",
+    "time": "2026-10-15 14:00",
+    "campusId": "C-E",
+    "buildingId": "B-LC",
+    "pointId": "P-LC-L3",
+    "energyType": "electricity",
+    "ruleId": "AR-SURGE",
+    "severity": "minor",
+    "detectedValue": "实验设备回路小时用电达到相似时段基线1.6倍",
+    "threshold": "相似日基线+40%",
+    "status": "closed",
+    "handler": "王建国",
+    "isFalse": true,
+    "workOrderId": null,
+    "timeline": [
+      { "time": "2026-10-15 14:00", "actor": "系统", "action": "触发告警", "note": "实验设备专用回路用电突增" },
+      { "time": "2026-10-15 15:20", "actor": "王建国", "action": "确认告警", "note": "与机械工程学院核实中" },
+      { "time": "2026-10-15 17:00", "actor": "王建国", "action": "提交处理结果", "note": "经核实为全国大学生工程训练竞赛备赛，风洞实验室连续运行，属正常教学科研用电" },
+      { "time": "2026-10-15 17:30", "actor": "张启明", "action": "复核关闭", "note": "确认为正常使用，判定为误报并保留事件记录" }
+    ]
+  },
+  {
+    "id": "AL-2026-0410",
+    "code": "ALM-202610-0410",
+    "title": "信息中心总电表读数异常跳变",
+    "time": "2026-10-08 16:00",
+    "campusId": "C-E",
+    "buildingId": "B-IC",
+    "pointId": "P-IC-M",
+    "energyType": "electricity",
+    "ruleId": "AR-READING",
+    "severity": "major",
+    "detectedValue": "10-08 14:00-16:00累计读数跳变，对应样本已标记无效",
+    "threshold": "基线20倍",
+    "status": "reviewing",
+    "handler": "陈志强",
+    "isFalse": false,
+    "workOrderId": "WO-2026-0415",
+    "timeline": [
+      { "time": "2026-10-08 16:00", "actor": "系统", "action": "触发告警", "note": "累计读数异常跳变，远传模块疑似故障，异常样本已标记无效不计入统计" },
+      { "time": "2026-10-08 16:30", "actor": "王建国", "action": "确认告警", "note": "通知物业运维现场核查表计与采集终端" },
+      { "time": "2026-10-08 17:00", "actor": "王建国", "action": "派发工单", "note": "生成工单WO-2026-0415，检查信息中心配电间采集终端" },
+      { "time": "2026-10-09 11:00", "actor": "陈志强", "action": "提交处理结果", "note": "确认为远传通信模块故障，已更换模块并复归读数，待复核" }
+    ]
+  },
+  {
+    "id": "AL-2026-0406",
+    "code": "ALM-202606-0406",
+    "title": "明德楼用水数据估算时段质量提醒",
+    "time": "2026-06-10 07:00",
+    "campusId": "C-E",
+    "buildingId": "B-TA",
+    "pointId": "P-TA-W",
+    "energyType": "water",
+    "ruleId": "AR-OFFLINE",
+    "severity": "minor",
+    "detectedValue": "03:00-06:00采集中断4小时，系统按相邻时段均值估算",
+    "threshold": "2个采样周期",
+    "status": "closed",
+    "handler": "王建国",
+    "isFalse": false,
+    "workOrderId": null,
+    "timeline": [
+      { "time": "2026-06-10 07:00", "actor": "系统", "action": "触发告警", "note": "采集链路短时中断，数据质量标记为估算" },
+      { "time": "2026-06-10 09:00", "actor": "王建国", "action": "确认告警", "note": "链路自动恢复，估算值与上下游水量核对无明显矛盾" },
+      { "time": "2026-06-10 10:00", "actor": "张启明", "action": "复核关闭", "note": "同意关闭，保留估算质量标记" }
+    ]
+  }
+]

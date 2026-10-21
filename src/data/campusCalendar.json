@@ -1,0 +1,39 @@
+{
+  "academicYears": [
+    { "id": "AY-2025", "name": "2025-2026学年", "start": "2025-09-01", "end": "2026-08-31" },
+    { "id": "AY-2026", "name": "2026-2027学年", "start": "2026-09-01", "end": "2027-08-31" }
+  ],
+  "semesters": [
+    { "id": "SEM-2025A", "academicYearId": "AY-2025", "name": "2025-2026学年秋季学期", "start": "2025-09-08", "end": "2026-01-16", "type": "term" },
+    { "id": "SEM-2025B", "academicYearId": "AY-2025", "name": "2025-2026学年寒假", "start": "2026-01-17", "end": "2026-02-22", "type": "winterBreak" },
+    { "id": "SEM-2025C", "academicYearId": "AY-2025", "name": "2025-2026学年春季学期", "start": "2026-02-23", "end": "2026-07-10", "type": "term" },
+    { "id": "SEM-2025D", "academicYearId": "AY-2025", "name": "2025-2026学年暑假", "start": "2026-07-11", "end": "2026-08-30", "type": "summerBreak" },
+    { "id": "SEM-2026A", "academicYearId": "AY-2026", "name": "2026-2027学年秋季学期", "start": "2026-08-31", "end": "2027-01-15", "type": "term" }
+  ],
+  "examWeeks": [
+    { "id": "EX-2025A", "name": "2025-2026学年秋季学期期末考试周", "start": "2026-01-05", "end": "2026-01-16" },
+    { "id": "EX-2025C", "name": "2025-2026学年春季学期期中考试周", "start": "2026-04-20", "end": "2026-04-24" },
+    { "id": "EX-2025D", "name": "2025-2026学年春季学期期末考试周", "start": "2026-06-22", "end": "2026-07-03" }
+  ],
+  "specialDays": [
+    { "id": "SD-01", "date": "2025-10-01", "end": "2025-10-08", "type": "holiday", "name": "国庆节、中秋节假期" },
+    { "id": "SD-02", "date": "2026-01-01", "end": "2026-01-02", "type": "holiday", "name": "元旦（寒假期间）" },
+    { "id": "SD-03", "date": "2026-04-05", "end": "2026-04-06", "type": "holiday", "name": "清明节假期" },
+    { "id": "SD-04", "date": "2026-05-01", "end": "2026-05-05", "type": "holiday", "name": "劳动节假期" },
+    { "id": "SD-05", "date": "2026-05-16", "end": "2026-05-16", "type": "special", "name": "校庆日活动（教学楼照常开放，体育馆有庆典活动）" },
+    { "id": "SD-06", "date": "2026-06-19", "end": "2026-06-21", "type": "holiday", "name": "端午节假期" },
+    { "id": "SD-07", "date": "2026-09-25", "end": "2026-09-27", "type": "holiday", "name": "中秋节假期" },
+    { "id": "SD-08", "date": "2026-10-01", "end": "2026-10-07", "type": "holiday", "name": "国庆节假期" }
+  ],
+  "openHours": [
+    { "id": "teaching", "category": "teaching", "weekdays": [1, 2, 3, 4, 5], "start": "07:00", "end": "22:30", "examExtension": "23:00", "breakStart": "08:30", "breakEnd": "17:30", "remark": "教学日全天开放，假期仅值班区域开放" },
+    { "id": "lab", "category": "lab", "weekdays": [0, 1, 2, 3, 4, 5, 6], "start": "00:00", "end": "24:00", "examExtension": "24:00", "breakStart": "00:00", "breakEnd": "24:00", "remark": "部分实验室及通风、恒温设备24小时运行" },
+    { "id": "library", "category": "library", "weekdays": [1, 2, 3, 4, 5, 6], "start": "07:30", "end": "22:00", "examExtension": "23:00", "breakStart": "08:30", "breakEnd": "17:00", "remark": "考试周延长开放至23:00" },
+    { "id": "office", "category": "office", "weekdays": [1, 2, 3, 4, 5], "start": "07:30", "end": "18:00", "examExtension": "18:00", "breakStart": "00:00", "breakEnd": "00:00", "remark": "假期行政值班半日" },
+    { "id": "dorm", "category": "dormitory", "weekdays": [0, 1, 2, 3, 4, 5, 6], "start": "00:00", "end": "24:00", "examExtension": "24:00", "breakStart": "00:00", "breakEnd": "24:00", "remark": "假期部分楼层封闭管理" },
+    { "id": "canteen", "category": "canteen", "weekdays": [0, 1, 2, 3, 4, 5, 6], "start": "05:30", "end": "20:00", "examExtension": "20:00", "breakStart": "07:00", "breakEnd": "14:00", "remark": "假期仅第一食堂一层值班餐厅开放" },
+    { "id": "gym", "category": "gym", "weekdays": [1, 2, 3, 4, 5, 6], "start": "06:30", "end": "21:30", "examExtension": "21:30", "breakStart": "09:00", "breakEnd": "18:00", "remark": "假期预约开放" },
+    { "id": "datacenter", "category": "datacenter", "weekdays": [0, 1, 2, 3, 4, 5, 6], "start": "00:00", "end": "24:00", "examExtension": "24:00", "breakStart": "00:00", "breakEnd": "24:00", "remark": "7×24小时运行" },
+    { "id": "logistics", "category": "logistics", "weekdays": [0, 1, 2, 3, 4, 5, 6], "start": "07:00", "end": "21:00", "examExtension": "21:00", "breakStart": "08:00", "breakEnd": "18:00", "remark": "" }
+  ]
+}

@@ -1,0 +1,20 @@
+[
+  { "id": "F-D1-1", "buildingId": "B-D1", "floorNo": 1, "rooms": 32, "area": 1040, "usage": "住宿" },
+  { "id": "F-D1-2", "buildingId": "B-D1", "floorNo": 2, "rooms": 32, "area": 1040, "usage": "住宿" },
+  { "id": "F-D1-3", "buildingId": "B-D1", "floorNo": 3, "rooms": 32, "area": 1040, "usage": "住宿" },
+  { "id": "F-D1-4", "buildingId": "B-D1", "floorNo": 4, "rooms": 32, "area": 1040, "usage": "住宿" },
+  { "id": "F-D1-5", "buildingId": "B-D1", "floorNo": 5, "rooms": 32, "area": 1040, "usage": "住宿" },
+  { "id": "F-D1-6", "buildingId": "B-D1", "floorNo": 6, "rooms": 28, "area": 960, "usage": "住宿" },
+  { "id": "F-D2-1", "buildingId": "B-D2", "floorNo": 1, "rooms": 30, "area": 980, "usage": "住宿" },
+  { "id": "F-D2-2", "buildingId": "B-D2", "floorNo": 2, "rooms": 30, "area": 980, "usage": "住宿" },
+  { "id": "F-D2-3", "buildingId": "B-D2", "floorNo": 3, "rooms": 30, "area": 980, "usage": "住宿" },
+  { "id": "F-D2-4", "buildingId": "B-D2", "floorNo": 4, "rooms": 30, "area": 980, "usage": "住宿" },
+  { "id": "F-D2-5", "buildingId": "B-D2", "floorNo": 5, "rooms": 30, "area": 980, "usage": "住宿" },
+  { "id": "F-D2-6", "buildingId": "B-D2", "floorNo": 6, "rooms": 28, "area": 920, "usage": "住宿" },
+  { "id": "F-D3-1", "buildingId": "B-D3", "floorNo": 1, "rooms": 34, "area": 1100, "usage": "住宿" },
+  { "id": "F-D3-2", "buildingId": "B-D3", "floorNo": 2, "rooms": 34, "area": 1100, "usage": "住宿" },
+  { "id": "F-D3-3", "buildingId": "B-D3", "floorNo": 3, "rooms": 34, "area": 1100, "usage": "住宿" },
+  { "id": "F-D3-4", "buildingId": "B-D3", "floorNo": 4, "rooms": 34, "area": 1100, "usage": "住宿" },
+  { "id": "F-D3-5", "buildingId": "B-D3", "floorNo": 5, "rooms": 34, "area": 1100, "usage": "住宿" },
+  { "id": "F-D3-6", "buildingId": "B-D3", "floorNo": 6, "rooms": 30, "area": 1080, "usage": "住宿" }
+]

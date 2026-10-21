@@ -1,0 +1,10 @@
+{
+  "platform": "明川大学物联网平台（数据来源说明：本演示中IoT平台仅作为业务意义上的上游数据来源，展示设备、点位、更新时间、在线状态与数据质量，不建立真实设备连接）",
+  "endpoints": [
+    { "id": "EP-IOT-SYNC", "name": "设备/点位元数据同步", "type": "元数据同步", "schedule": "每日 02:00", "lastRun": "2026-10-21 02:00", "status": "success", "pointCount": 93, "errorCount": 0, "retryCount": 0, "lastError": null },
+    { "id": "EP-IOT-REALTIME", "name": "实时值与状态订阅", "type": "实时订阅", "schedule": "每15分钟", "lastRun": "2026-10-21 07:45", "status": "success", "pointCount": 93, "errorCount": 0, "retryCount": 0, "lastError": null },
+    { "id": "EP-IOT-HISTORY", "name": "历史时序补拉", "type": "历史拉取", "schedule": "每小时", "lastRun": "2026-10-21 07:00", "status": "warning", "pointCount": 1, "errorCount": 1, "retryCount": 3, "lastError": "DEV-C2-G 设备离线，2026-10-19 22:00后缺口待补拉", "backlogWindows": [{ "pointId": "P-C2-G", "from": "2026-10-19 22:00", "to": "至今", "reason": "采集设备离线，恢复后自动补传并重算相关指标" }] },
+    { "id": "EP-BILL-IMPORT", "name": "供应商账单导入（人工）", "type": "人工导入", "schedule": "月度", "lastRun": "2026-10-14 10:00", "status": "success", "pointCount": 6, "errorCount": 0, "retryCount": 0, "lastError": null }
+  ],
+  "credentialPolicy": "接入凭据加密存储，不在界面与日志中展示明文"
+}

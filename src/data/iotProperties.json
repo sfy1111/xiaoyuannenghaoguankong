@@ -1,0 +1,17 @@
+{
+  "gateways": [
+    { "id": "GW-E1", "name": "东校区1号采集网关", "campusId": "C-E", "location": "东校区中心配电房", "online": true, "lastHeartbeat": "2026-10-21T07:55:00+08:00" },
+    { "id": "GW-E2", "name": "东校区2号采集网关", "campusId": "C-E", "location": "兰园泵房", "online": true, "lastHeartbeat": "2026-10-21T07:56:00+08:00" },
+    { "id": "GW-W1", "name": "西校区1号采集网关", "campusId": "C-W", "location": "西校区中心配电房", "online": true, "lastHeartbeat": "2026-10-21T07:54:00+08:00" },
+    { "id": "GW-W2", "name": "西校区2号采集网关", "campusId": "C-W", "location": "动力中心", "online": true, "lastHeartbeat": "2026-10-21T07:50:00+08:00" }
+  ],
+  "candidateProperties": [
+    { "id": "IOT-CAND-01", "deviceId": "DEV-W0915", "deviceName": "笃行楼配电间备用回路采集终端", "gatewayId": "GW-W2", "campusId": "C-W", "code": "DEV-W0915.EnergyForwardTotal", "name": "正向有功总电能", "valueType": "cumulative", "readingType": "累计量", "unit": "kWh", "energyType": "electricity", "online": true, "lastSeen": "2026-10-21T07:00:00+08:00", "boundPointId": null },
+    { "id": "IOT-CAND-02", "deviceId": "DEV-W0915", "deviceName": "笃行楼配电间备用回路采集终端", "gatewayId": "GW-W2", "campusId": "C-W", "code": "DEV-W0915.PowerActive", "name": "瞬时有功功率", "valueType": "instantaneous", "readingType": "瞬时量", "unit": "kW", "energyType": "electricity", "online": true, "lastSeen": "2026-10-21T07:00:00+08:00", "boundPointId": null },
+    { "id": "IOT-CAND-03", "deviceId": "DEV-E0812", "deviceName": "兰园泵房新增流量采集终端", "gatewayId": "GW-E2", "campusId": "C-E", "code": "DEV-E0812.FlowTotal", "name": "累计流量", "valueType": "cumulative", "readingType": "累计量", "unit": "m³", "energyType": "water", "online": true, "lastSeen": "2026-10-21T07:00:00+08:00", "boundPointId": null },
+    { "id": "IOT-CAND-04", "deviceId": "DEV-E0812", "deviceName": "兰园泵房新增流量采集终端", "gatewayId": "GW-E2", "campusId": "C-E", "code": "DEV-E0812.FlowInstant", "name": "瞬时流量", "valueType": "instantaneous", "readingType": "瞬时量", "unit": "m³/h", "energyType": "water", "online": true, "lastSeen": "2026-10-21T07:00:00+08:00", "boundPointId": null },
+    { "id": "IOT-CAND-05", "deviceId": "DEV-W0917", "deviceName": "竹园锅炉房改造回路采集终端", "gatewayId": "GW-W2", "campusId": "C-W", "code": "DEV-W0917.EnergyForwardTotal", "name": "正向有功总电能", "valueType": "cumulative", "readingType": "累计量", "unit": "kWh", "energyType": "electricity", "online": false, "lastSeen": "2026-10-02T09:00:00+08:00", "boundPointId": null },
+    { "id": "IOT-CAND-06", "deviceId": "DEV-E0918", "deviceName": "明德楼新风机房采集终端", "gatewayId": "GW-E1", "campusId": "C-E", "code": "DEV-E0918.EnergyForwardTotal", "name": "正向有功总电能", "valueType": "cumulative", "readingType": "累计量", "unit": "kWh", "energyType": "electricity", "online": true, "lastSeen": "2026-10-21T07:00:00+08:00", "boundPointId": null },
+    { "id": "IOT-CAND-07", "deviceId": "DEV-E0919", "deviceName": "致知楼屋顶新增光伏预留采集终端", "gatewayId": "GW-E1", "campusId": "C-E", "code": "DEV-E0919.EnergyReverseTotal", "name": "反向有功总电能", "valueType": "cumulative", "readingType": "累计量", "unit": "kWh", "energyType": "electricity", "online": true, "lastSeen": "2026-10-21T07:00:00+08:00", "boundPointId": null, "remark": "光伏项目尚未启用，属性预留" }
+  ]
+}

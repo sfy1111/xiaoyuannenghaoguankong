@@ -1,0 +1,73 @@
+[
+  {
+    "id": "R-LEADER",
+    "name": "学校领导",
+    "description": "关注全校总量、趋势、预算与节能成效",
+    "canView": ["dashboard", "monitoring", "analytics", "efficiency", "reports"],
+    "canEdit": [],
+    "canApprove": [],
+    "allowedCampusIds": ["C-E", "C-W"],
+    "restrictions": ["不可编辑电价、补录、计量绑定", "不展示费用明细编辑入口"]
+  },
+  {
+    "id": "R-DIRECTOR",
+    "name": "后勤能源主管",
+    "description": "统筹全校用能、目标与告警审批复核",
+    "canView": ["dashboard", "monitoring", "analytics", "scenarios", "costs", "alarms", "reports", "efficiency", "foundation", "system"],
+    "canEdit": ["alarms", "calendar", "targets", "alarmRules", "foundation", "costs"],
+    "canApprove": ["alarms", "dataQuality", "calendar", "alarmRules", "targets", "costs"],
+    "allowedCampusIds": ["C-E", "C-W"],
+    "restrictions": ["不能无痕修改原始计量值"]
+  },
+  {
+    "id": "R-MANAGER",
+    "name": "能源管理员",
+    "description": "能耗日常统计、台账与异常排查（示例范围：东校区）",
+    "canView": ["dashboard", "monitoring", "analytics", "scenarios", "costs", "alarms", "reports", "foundation"],
+    "canEdit": ["foundation", "alarms"],
+    "canApprove": [],
+    "allowedCampusIds": ["C-E"],
+    "restrictions": ["查询范围限所辖校区", "价格与账单仅可查看"]
+  },
+  {
+    "id": "R-LIAISON",
+    "name": "学院联络员",
+    "description": "查看本单位责任用能、分摊费用与指标（示例：机械工程学院）",
+    "canView": ["dashboard", "analytics", "scenarios"],
+    "canEdit": [],
+    "canApprove": [],
+    "allowedCampusIds": ["C-E"],
+    "departmentId": "D-ME",
+    "restrictions": ["仅可见授权学院相关建筑", "不得查看其他学院宿舍与费用明细"]
+  },
+  {
+    "id": "R-OPERATION",
+    "name": "物业运维",
+    "description": "仪表状态、工单执行与现场核查（示例范围：西校区）",
+    "canView": ["monitoring", "alarms", "foundation"],
+    "canEdit": ["workOrders"],
+    "canApprove": [],
+    "allowedCampusIds": ["C-W"],
+    "restrictions": ["不得审批费用或指标修正", "不得修改计量绑定"]
+  },
+  {
+    "id": "R-FINANCE",
+    "name": "财务人员",
+    "description": "价格方案、账单核对、预算与对账",
+    "canView": ["costs", "reports", "dashboard"],
+    "canEdit": ["costs"],
+    "canApprove": ["costs"],
+    "allowedCampusIds": ["C-E", "C-W"],
+    "restrictions": ["不得修改IoT属性绑定"]
+  },
+  {
+    "id": "R-ADMIN",
+    "name": "系统管理员",
+    "description": "用户权限、接口运行、日志与基础字典维护",
+    "canView": ["system", "foundation"],
+    "canEdit": ["system"],
+    "canApprove": [],
+    "allowedCampusIds": ["C-E", "C-W"],
+    "restrictions": ["不直接操作已批准的业务统计数据"]
+  }
+]
