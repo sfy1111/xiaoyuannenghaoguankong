@@ -5,11 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import ReactECharts from 'echarts-for-react';
 import dayjs from 'dayjs';
 import type { EChartsOption } from 'echarts';
+import RangeModeControl from '../../components/RangeModeControl';
 import { getEntities, META } from '../../services/repository';
 import { scopeDaily, scopeUsage, latestPowerKw, aggregateHours, hourRangeOf } from '../../services/energyStats';
 import { electricityTouDaily } from '../../services/costService';
 import { nightFlowRows } from '../../services/energyStats';
-import { useFilters, DATA_END, currentRange } from '../../stores/filters';
+import { useFilters, DATA_END, currentRange, syncFiltersToUrl } from '../../stores/filters';
 import { userScope } from '../../stores/identity';
 import { ENERGY_LABEL } from '../../domain/units';
 import { lastNDays } from '../../domain/time';
@@ -41,7 +42,6 @@ export default function EnergyScreenPage() {
   const entities = getEntities();
   const scope = useMemo(() => userScope(campusId), [campusId]);
   const range = useMemo(() => currentRange(dateMode, date), [dateMode, date]);
-  const campusLabel = campusId === 'all' ? '全部校区' : entities.campuses.find((c) => c.id === campusId)?.name ?? '';
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -189,10 +189,23 @@ export default function EnergyScreenPage() {
           <Button type="text" icon={<ArrowLeftOutlined />} style={{ color: '#cfdeee' }} onClick={() => navigate('/dashboard/campus')}>
             返回管理端
           </Button>
-          <span style={{ color: '#7fa8cf', fontSize: 13 }}>明川大学 · {campusLabel} · {range.label}</span>
+          <Segmented
+            size="small"
+            value={campusId}
+            options={[
+              { value: 'all', label: '全部校区' },
+              { value: 'C-E', label: '东校区' },
+              { value: 'C-W', label: '西校区' },
+            ]}
+            onChange={(v) => {
+              useFilters.getState().setCampus(v as 'all' | string);
+              syncFiltersToUrl();
+            }}
+          />
         </Space>
         <div className="screen-title">能源专题驾驶舱</div>
         <Space size={12}>
+          <RangeModeControl showLabel={false} />
           <span style={{ color: '#7fa8cf' }}>数据更新 {dayjs(META.asOf).format('YYYY-MM-DD HH:mm')}</span>
           <Button
             type="text"

@@ -3,6 +3,7 @@ import { describe, expect, it, vi, beforeAll } from 'vitest';
 import { render, waitFor, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { useIdentity, userScope } from '../stores/identity';
+import { useFilters } from '../stores/filters';
 import { scopePointIds } from '../services/energyStats';
 
 // ECharts 在 jsdom 中无 Canvas 环境，以轻量桩替换（真实浏览器不受影响）
@@ -47,7 +48,7 @@ function renderAt(path: string) {
 }
 
 describe('界面渲染冒烟测试', () => {
-  it('校园综合概览页面能渲染出内容', async () => {
+  it('校园综合概览页面能渲染出内容，统计区间控件可切换口径', async () => {
     const { container } = renderAt('/dashboard/campus');
     await waitFor(() => {
       expect(container.textContent).toContain('校园综合概览');
@@ -55,7 +56,17 @@ describe('界面渲染冒烟测试', () => {
       expect(container.textContent).toContain('建筑用电排行');
       expect(container.textContent).toContain('待处理异常事件');
     }, { timeout: 10000 });
-  }, 20000);
+    // 统计区间控件位于页面（全局状态驱动，切换后 KPI 口径立即变化）
+    expect(container.textContent).toContain('统计区间');
+    act(() => {
+      useFilters.getState().setDateMode('month');
+    });
+    await waitFor(() => expect(container.textContent).toContain('本月'), { timeout: 6000 });
+    act(() => {
+      useFilters.getState().setDateMode('day');
+    });
+    await waitFor(() => expect(container.textContent).toContain('本日'), { timeout: 6000 });
+  }, 25000);
 
   it('电力监测页面能渲染出内容', async () => {
     const { container } = renderAt('/monitor/electricity');

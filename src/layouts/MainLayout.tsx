@@ -1,22 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import { Avatar, App, Badge, Breadcrumb, Dropdown, Layout, Menu, Select, Space, Tag, Tooltip, theme } from 'antd';
+import { Avatar, App, Badge, Breadcrumb, Dropdown, Layout, Menu, Space, Tag, Tooltip, theme } from 'antd';
 import { BellOutlined, UserOutlined, GlobalOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { menuItems, defaultOpenKeys, MENU } from '../app/menu';
 import { useIdentity, currentRole, visibleCampusIds } from '../stores/identity';
-import { useFilters, syncFiltersToUrl, currentRange } from '../stores/filters';
+import { useFilters, currentRange } from '../stores/filters';
 import { getEntities, useEntities, META } from '../services/repository';
-import { useCampusOptions } from '../components/FilterBar';
 import dayjs from 'dayjs';
 
 const { Header, Sider, Content } = Layout;
 
 function HeaderControls() {
   const navigate = useNavigate();
-  const { campusId, setCampus, dateMode, setDateMode } = useFilters();
-  const campusOptions = useCampusOptions();
-  // 订阅告警/工单/补录状态，切换角色或处置告警后角标实时更新
+  // 订阅告警/工单状态，切换角色或处置告警后角标实时更新
+  // 校区/统计区间筛选由各业务页统一筛选栏提供（全局状态共享），顶部不再重复放置校区选择器
   const pendingAlarms = useEntities(
     (s) => s.alarms.filter((a) => a.status === 'pending' || a.status === 'processing' || a.status === 'reviewing').length,
   );
@@ -24,24 +22,6 @@ function HeaderControls() {
   return (
     <Space size={4} wrap style={{ justifyContent: 'flex-end', width: '100%' }}>
       <Tag color="blue" style={{ marginInlineEnd: 4 }}>数据更新 {dayjs(META.asOf).format('MM-DD HH:mm')}</Tag>
-      <Select
-        size="small"
-        value={campusId}
-        style={{ width: 116 }}
-        options={campusOptions}
-        onChange={(v) => { setCampus(v); syncFiltersToUrl(); navigate(`/dashboard/campus${v === 'all' ? '' : '/' + v}`); }}
-      />
-      <Select
-        size="small"
-        value={dateMode}
-        style={{ width: 80 }}
-        options={[
-          { value: 'day', label: '按日' },
-          { value: 'month', label: '按月' },
-          { value: 'year', label: '按年' },
-        ]}
-        onChange={(v) => { setDateMode(v); syncFiltersToUrl(); }}
-      />
       <Tooltip title="告警中心">
         <Badge count={pendingAlarms} size="small">
           <BellOutlined style={{ fontSize: 17, color: pendingAlarms > 0 ? '#fa8c16' : undefined }} onClick={() => navigate('/alarms')} />

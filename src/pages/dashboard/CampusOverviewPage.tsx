@@ -1,13 +1,14 @@
 ﻿import { useMemo } from 'react';
-import { Button, Card, List, Space, Table, Tag, Tooltip, DatePicker } from 'antd';
+import { Button, Card, List, Space, Table, Tag, Tooltip } from 'antd';
 import { FullscreenOutlined, RightOutlined, WarningOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import PageHeader from '../../components/PageHeader';
 import StatCard from '../../components/StatCard';
+import RangeModeControl from '../../components/RangeModeControl';
 import { ChartCard, EnergyLineChart, EnergyPieChart } from '../../components/charts';
 import { IncompleteNote, AlarmStatusTag, SeverityTag } from '../../components/StatusTags';
-import { useFilters, currentRange, DATA_START, DATA_END } from '../../stores/filters';
+import { useFilters, currentRange, DATA_END } from '../../stores/filters';
 import { userScope, visibleBuildings, visibleCampusIds } from '../../stores/identity';
 import { getEntities, META } from '../../services/repository';
 import {
@@ -137,13 +138,7 @@ export default function CampusOverviewPage() {
         }
         extra={
           <Space>
-            <DatePicker
-              size="small"
-              value={dayjs(date)}
-              allowClear={false}
-              disabledDate={(d) => d.isBefore(dayjs(DATA_START)) || d.isAfter(dayjs(DATA_END))}
-              onChange={(v) => v && useFilters.getState().setDate(v.format('YYYY-MM-DD'))}
-            />
+            <RangeModeControl />
             <Button size="small" icon={<FullscreenOutlined />} onClick={() => navigate('/dashboard/energy')}>能源专题大屏</Button>
           </Space>
         }

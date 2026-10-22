@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import PageHeader from '../../components/PageHeader';
 import StatCard from '../../components/StatCard';
+import RangeModeControl from '../../components/RangeModeControl';
 import { ChartCard, EnergyLineChart, EnergyPieChart } from '../../components/charts';
 import { IncompleteNote, AlarmStatusTag } from '../../components/StatusTags';
 import { useFilters, currentRange, DATA_END } from '../../stores/filters';
@@ -98,6 +99,7 @@ export default function CampusDetailPage() {
             <span className="muted">数据更新：{dayjs(META.asOf).format('YYYY-MM-DD HH:mm')}</span>
           </Space>
         }
+        extra={<RangeModeControl />}
       />
       <Descriptions
         size="small"
