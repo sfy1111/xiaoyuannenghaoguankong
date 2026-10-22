@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import { Avatar, App, Badge, Breadcrumb, Dropdown, Layout, Menu, Space, Tag, Tooltip, theme } from 'antd';
-import { BellOutlined, UserOutlined, GlobalOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { Avatar, App, Badge, Breadcrumb, Button, Dropdown, Layout, Menu, Space, Tag, Tooltip, theme } from 'antd';
+import { ArrowLeftOutlined, BellOutlined, UserOutlined, GlobalOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { menuItems, defaultOpenKeys, MENU } from '../app/menu';
 import { useIdentity, currentRole, visibleCampusIds } from '../stores/identity';
 import { useFilters, currentRange } from '../stores/filters';
+import { useNavigation, resolveTitle } from '../stores/navigation';
 import { getEntities, useEntities, META } from '../services/repository';
 import dayjs from 'dayjs';
 
@@ -121,12 +123,40 @@ export default function MainLayout() {
     return path;
   }, [location.pathname]);
 
+  // 钻取导航轨迹：随路由变化维护（识别菜单入口/页内钻取/浏览器后退）
+  const trail = useNavigation((s) => s.trail);
+  useEffect(() => {
+    useNavigation.getState().onLocationChange(location.pathname);
+  }, [location.pathname]);
+
+  const goTrailTo = (path: string) => {
+    useNavigation.getState().goTo(path);
+    navigate(path);
+  };
+
   const breadcrumb = useMemo(() => {
+    // 有跳转轨迹时按“来源链”展示（每级可点击回跳）；直接打开/无轨迹时回退静态菜单位置
+    if (trail.length > 1) {
+      const items: { title: ReactNode }[] = [];
+      const startsAtHome = trail[0].path === '/dashboard/campus';
+      if (!startsAtHome) {
+        items.push({
+          title: <a onClick={() => { useNavigation.getState().markMenuJump(); navigate('/dashboard/campus'); }}>首页</a>,
+        });
+      }
+      trail.slice(0, -1).forEach((e) => {
+        items.push({ title: <a onClick={() => goTrailTo(e.path)}>{e.title}</a> });
+      });
+      items.push({ title: trail[trail.length - 1].title });
+      return items;
+    }
     const path = location.pathname;
-    const items: { title: string; path?: string }[] = [{ title: '首页', path: '/dashboard/campus' }];
+    const items: { title: ReactNode }[] = [
+      { title: <a onClick={() => { useNavigation.getState().markMenuJump(); navigate('/dashboard/campus'); }}>首页</a> },
+    ];
     for (const group of MENU) {
       if (path.startsWith('/dashboard/campus/') && (path.endsWith('/C-E') || path.endsWith('/C-W'))) {
-        items.push({ title: '综合驾驶舱' }, { title: '校区总览' });
+        items.push({ title: '综合驾驶舱' }, { title: resolveTitle(path) });
         return items;
       }
       if (path.startsWith('/dashboard/campus')) {
@@ -134,11 +164,11 @@ export default function MainLayout() {
         return items;
       }
       if (path.startsWith('/monitor/building/')) {
-        items.push({ title: '能源监测' }, { title: '单栋楼宇详情' });
+        items.push({ title: '能源监测' }, { title: resolveTitle(path) });
         return items;
       }
       if (path.startsWith('/alarms/') && path !== '/alarms/rules') {
-        items.push({ title: '告警与工单' }, { title: '告警详情' });
+        items.push({ title: '告警与工单' }, { title: resolveTitle(path) });
         return items;
       }
       for (const leaf of group.children) {
@@ -149,7 +179,10 @@ export default function MainLayout() {
       }
     }
     return items;
-  }, [location.pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trail, location.pathname]);
+
+  const prevEntry = trail.length >= 2 ? trail[trail.length - 2] : null;
 
   const { label } = currentRange(useFilters.getState().dateMode, useFilters.getState().date);
 
@@ -163,7 +196,7 @@ export default function MainLayout() {
         onCollapse={setCollapsed}
         trigger={null}
       >
-        <div className="logo" onClick={() => navigate('/dashboard/campus')} style={{ cursor: 'pointer' }}>
+        <div className="logo" onClick={() => { useNavigation.getState().markMenuJump(); navigate('/dashboard/campus'); }} style={{ cursor: 'pointer' }}>
           <GlobalOutlined className="logo-icon" />
           {!collapsed && <span>{META.systemName}</span>}
         </div>
@@ -174,7 +207,10 @@ export default function MainLayout() {
           defaultOpenKeys={defaultOpenKeys()}
           selectedKeys={[selectedKey]}
           onClick={({ key }) => {
-            if (String(key).startsWith('/')) navigate(String(key));
+            if (String(key).startsWith('/')) {
+              useNavigation.getState().markMenuJump();
+              navigate(String(key));
+            }
           }}
         />
       </Sider>
@@ -196,11 +232,18 @@ export default function MainLayout() {
           </div>
         </Header>
         <Content className="app-content">
-          <Breadcrumb
-            className="breadcrumb"
-            items={breadcrumb.map((b, i) => ({ title: b.path && i < breadcrumb.length - 1 ? <a onClick={() => navigate(b.path!)}>{b.title}</a> : b.title }))}
-            style={{ marginBottom: 8 }}
-          />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap', marginBottom: 8 }}>
+            <Breadcrumb
+              className="breadcrumb"
+              items={breadcrumb}
+              style={{ marginBottom: 0, minWidth: 0, overflow: 'hidden' }}
+            />
+            {prevEntry && (
+              <Button size="small" icon={<ArrowLeftOutlined />} onClick={() => goTrailTo(prevEntry.path)} style={{ flex: '0 0 auto' }}>
+                返回：{prevEntry.title}
+              </Button>
+            )}
+          </div>
           <Outlet key={userId} />
         </Content>
       </Layout>

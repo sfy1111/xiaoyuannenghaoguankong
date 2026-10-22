@@ -11,6 +11,7 @@ import { scopeDaily, scopeUsage, latestPowerKw, aggregateHours, hourRangeOf } fr
 import { electricityTouDaily } from '../../services/costService';
 import { nightFlowRows } from '../../services/energyStats';
 import { useFilters, DATA_END, currentRange, syncFiltersToUrl } from '../../stores/filters';
+import { useNavigation } from '../../stores/navigation';
 import { userScope } from '../../stores/identity';
 import { ENERGY_LABEL } from '../../domain/units';
 import { lastNDays } from '../../domain/time';
@@ -186,7 +187,7 @@ export default function EnergyScreenPage() {
     <div className="screen-layout">
       <div className="screen-header">
         <Space size={16}>
-          <Button type="text" icon={<ArrowLeftOutlined />} style={{ color: '#cfdeee' }} onClick={() => navigate('/dashboard/campus')}>
+          <Button type="text" icon={<ArrowLeftOutlined />} style={{ color: '#cfdeee' }} onClick={() => { useNavigation.getState().markMenuJump(); navigate('/dashboard/campus'); }}>
             返回管理端
           </Button>
           <Segmented

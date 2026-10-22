@@ -1,10 +1,17 @@
 // @vitest-environment jsdom
-import { describe, expect, it, vi, beforeAll } from 'vitest';
-import { render, waitFor, act } from '@testing-library/react';
+import { describe, expect, it, vi, beforeAll, beforeEach } from 'vitest';
+import { render, waitFor, act, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { useIdentity, userScope } from '../stores/identity';
 import { useFilters } from '../stores/filters';
+import { useNavigation } from '../stores/navigation';
 import { scopePointIds } from '../services/energyStats';
+
+beforeEach(() => {
+  // 用例隔离：清理已挂载组件并重置导航轨迹（等价于新开会话）
+  cleanup();
+  useNavigation.setState({ trail: [], nextIsMenuJump: false });
+});
 
 // ECharts 在 jsdom 中无 Canvas 环境，以轻量桩替换（真实浏览器不受影响）
 vi.mock('echarts-for-react', () => ({
@@ -170,5 +177,27 @@ describe('界面渲染冒烟测试', () => {
       useIdentity.getState().setUserId('U-ZHANG');
     });
     await waitFor(() => expect(container.textContent).toContain('后勤能源主管'), { timeout: 10000 });
+  }, 30000);
+
+  it('钻取导航：页内跳转后面包屑显示来源页并可一键返回', async () => {
+    const { container } = renderAt('/dashboard/campus');
+    await waitFor(() => expect(container.textContent).toContain('建筑用电排行'), { timeout: 10000 });
+
+    // 点击建筑排行行进入楼宇详情（页内钻取）
+    const row = [...container.querySelectorAll('tr')].find((tr) => tr.textContent?.includes('明德楼（教学楼A）'));
+    expect(row).toBeTruthy();
+    act(() => { row!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    await waitFor(() => expect(container.textContent).toContain('单位面积电耗'), { timeout: 8000 });
+
+    // 面包屑按真实跳转链展示来源页（而非静态菜单层级）
+    expect(container.textContent).toContain('校园综合概览');
+    // 全局“返回上一级”按钮可见并标注来源页
+    const backBtn = [...container.querySelectorAll('button')].find((b) => b.textContent?.includes('返回：校园综合概览'));
+    expect(backBtn).toBeTruthy();
+    act(() => { backBtn!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+
+    // 一键返回后回到来源页面
+    await waitFor(() => expect(container.textContent).toContain('建筑用电排行'), { timeout: 8000 });
+    expect(container.textContent).not.toContain('返回：校园综合概览');
   }, 30000);
 });
