@@ -24,3 +24,6 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Office 临时锁定文件
+~$*
