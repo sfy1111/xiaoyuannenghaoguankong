@@ -7,13 +7,13 @@ import StatCard from '../../components/StatCard';
 import RangeModeControl from '../../components/RangeModeControl';
 import { ChartCard, EnergyLineChart, EnergyPieChart } from '../../components/charts';
 import { IncompleteNote, AlarmStatusTag } from '../../components/StatusTags';
-import { useFilters, currentRange } from '../../stores/filters';
+import { useFilters, currentRange, DATA_END } from '../../stores/filters';
 import { campusAllowedByUser } from '../../stores/identity';
 import { getEntities, studentsOfMonth, META } from '../../services/repository';
-import { scopeUsage, campusBalance, boundaryNote, trendSeriesForMode, trendXLabel } from '../../services/energyStats';
+import { scopeUsage, scopeDaily, campusBalance, boundaryNote } from '../../services/energyStats';
 import { pctChange } from '../../domain/analysis';
 import { CATEGORY_LABEL, ENERGY_COLOR, fmtInt } from '../../domain/units';
-import { monthOf, shiftDay } from '../../domain/time';
+import { lastNDays, monthOf, shiftDay } from '../../domain/time';
 
 export default function CampusDetailPage() {
   const { campusId } = useParams<{ campusId: string }>();
@@ -44,8 +44,8 @@ export default function CampusDetailPage() {
         : null;
     const elecBase = baseRange ? scopeUsage('electricity', { campusId: cid }, baseRange.from, baseRange.to) : null;
 
-    const trendElec = trendSeriesForMode('electricity', { campusId: cid }, dateMode, date);
-    const trendWater = trendSeriesForMode('water', { campusId: cid }, dateMode, date);
+    const days30 = lastNDays(DATA_END, 30);
+    const elecDaily = scopeDaily('electricity', { campusId: cid }, days30[0], days30[29]);
     const buildings = entities.buildings.filter((b) => b.status === 'active' && b.campusId === cid);
     const buildingRows = buildings.map((b) => {
       const e = scopeUsage('electricity', { buildingId: b.id }, range.from, range.to);
@@ -72,8 +72,8 @@ export default function CampusDetailPage() {
     const month = monthOf(range.from);
     const students = studentsOfMonth(month);
     const campusStudents = cid === 'C-E' ? students?.east ?? null : students?.west ?? null;
-    return { elec, water, gas, cooling, heat, hotWater, elecBase, trendElec, trendWater, buildingRows, elecBalance, waterBalance, alarms, campusStudents };
-  }, [campusId, range, dateMode, date, entities, allowed]);
+    return { elec, water, gas, cooling, heat, hotWater, elecBase, elecDaily, buildingRows, elecBalance, waterBalance, alarms, campusStudents };
+  }, [campusId, range, dateMode, entities, allowed]);
 
   if (!campusId || !campus) {
     return <PageHeader breadcrumb={['综合驾驶舱', '校区总览']} title="校区不存在" subtitle="请从菜单重新进入" />;
@@ -134,34 +134,15 @@ export default function CampusDetailPage() {
       </div>
 
       <div className="chart-grid c2">
-        <ChartCard
-          title={`${data.trendElec.windowLabel}用电趋势`}
-          height={300}
-          note={data.trendElec.note ?? '与全校驾驶舱同口径'}
-        >
+        <ChartCard title="近30日本校区用电趋势" height={300} note="与全校驾驶舱同口径">
           <EnergyLineChart
-            x={data.trendElec.rows.map((r) => trendXLabel(r.date))}
-            series={[{ name: dateMode === 'day' ? '日用电量' : '用电量', data: data.trendElec.rows.map((r) => (r.total > 0 ? Math.round(r.total) : null)), color: ENERGY_COLOR.electricity, area: true }]}
+            x={data.elecDaily.map((r) => r.date.slice(5))}
+            series={[{ name: '日用电量', data: data.elecDaily.map((r) => (r.total > 0 ? Math.round(r.total) : null)), color: ENERGY_COLOR.electricity, area: true }]}
             unit="kWh"
             height={290}
             showLegend={false}
           />
         </ChartCard>
-        <ChartCard
-          title={`${data.trendWater.windowLabel}用水趋势`}
-          height={300}
-          note={data.trendWater.note}
-        >
-          <EnergyLineChart
-            x={data.trendWater.rows.map((r) => trendXLabel(r.date))}
-            series={[{ name: dateMode === 'day' ? '日用水量' : '用水量', data: data.trendWater.rows.map((r) => (r.total > 0 ? Math.round(r.total) : null)), color: ENERGY_COLOR.water, area: true }]}
-            unit="m³"
-            height={290}
-            showLegend={false}
-          />
-        </ChartCard>
-      </div>
-      <div className="chart-grid c2">
         <ChartCard
           title="计量覆盖与能源平衡"
           height={300}

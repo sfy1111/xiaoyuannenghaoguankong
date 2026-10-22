@@ -63,25 +63,16 @@ describe('界面渲染冒烟测试', () => {
       expect(container.textContent).toContain('建筑用电排行');
       expect(container.textContent).toContain('待处理异常事件');
     }, { timeout: 10000 });
-    // 统计区间控件位于页面（全局状态驱动，切换后整页数据面板随之变化）
+    // 统计区间控件位于页面（全局状态驱动，切换后 KPI 口径立即变化）
     expect(container.textContent).toContain('统计区间');
-    expect(container.textContent).toContain('近30日用电趋势');
     act(() => {
       useFilters.getState().setDateMode('month');
     });
-    await waitFor(() => {
-      expect(container.textContent).toContain('本月');
-      // 趋势图窗口同步切换为近12月：不再出现“部分内容不变”的错觉
-      expect(container.textContent).toContain('近12月用电趋势');
-      expect(container.textContent).not.toContain('近30日用电趋势');
-    }, { timeout: 6000 });
+    await waitFor(() => expect(container.textContent).toContain('本月'), { timeout: 6000 });
     act(() => {
       useFilters.getState().setDateMode('day');
     });
-    await waitFor(() => {
-      expect(container.textContent).toContain('本日');
-      expect(container.textContent).toContain('近30日用电趋势');
-    }, { timeout: 6000 });
+    await waitFor(() => expect(container.textContent).toContain('本日'), { timeout: 6000 });
   }, 25000);
 
   it('电力监测页面能渲染出内容', async () => {
