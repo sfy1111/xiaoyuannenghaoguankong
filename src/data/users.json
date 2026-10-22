@@ -1,4 +1,5 @@
 [
+  { "id": "U-SUPER", "account": "superadmin", "name": "超级管理员", "title": "系统超级管理员（演示巡检账号）", "roleId": "R-SUPER", "departmentId": "D-IT", "phone": "130****0000", "status": "active", "lastLogin": "2026-10-21 08:05", "authType": "统一身份认证" },
   { "id": "U-ZHANG", "account": "zhangqm", "name": "张启明", "title": "后勤保障处能源管理办公室主任", "roleId": "R-DIRECTOR", "departmentId": "D-HQC", "phone": "138****1201", "status": "active", "lastLogin": "2026-10-21 07:40", "authType": "统一身份认证" },
   { "id": "U-LI", "account": "liwenyuan", "name": "李文渊", "title": "副校长", "roleId": "R-LEADER", "departmentId": "D-XGB", "phone": "139****2033", "status": "active", "lastLogin": "2026-10-20 16:20", "authType": "统一身份认证" },
   { "id": "U-WANG", "account": "wangjianguo", "name": "王建国", "title": "能源管理办公室工程师", "roleId": "R-MANAGER", "departmentId": "D-HQC", "phone": "137****3345", "status": "active", "lastLogin": "2026-10-21 08:10", "authType": "统一身份认证" },

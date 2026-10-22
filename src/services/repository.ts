@@ -203,6 +203,12 @@ export const useEntities = create<EntityStore>((set, get) => {
   const base = baseCollections();
   const persisted = loadPersisted();
   const initial = persisted ? { ...base, ...persisted } : base;
+  // 用户列表按 ID 合并：JSON 中新增的内置用户（如超级管理员）始终可见，
+  // 已有用户以本地持久化（含运行期新增/编辑/停用）为准
+  if (persisted?.users) {
+    const persistedIds = new Set(persisted.users.map((u) => u.id));
+    initial.users = [...persisted.users, ...base.users.filter((u) => !persistedIds.has(u.id))];
+  }
 
   const withAudit = (
     module: string, action: string, objectId: string, detail: string,

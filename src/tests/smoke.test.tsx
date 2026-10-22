@@ -133,4 +133,31 @@ describe('界面渲染冒烟测试', () => {
     });
     await waitFor(() => expect(container.textContent).toContain('后勤能源主管'), { timeout: 10000 });
   }, 30000);
+
+  it('超级管理员视角可见并可操作全部模块', async () => {
+    const { container } = renderAt('/dashboard/campus');
+    await waitFor(() => expect(container.textContent).toContain('校园综合概览'), { timeout: 10000 });
+
+    act(() => {
+      useIdentity.getState().setUserId('U-SUPER');
+    });
+    await waitFor(() => {
+      expect(container.textContent).toContain('超级管理员');
+      // 全部菜单组可见（此前各受限角色均会隐藏其中一部分）
+      for (const label of ['综合驾驶舱', '能源监测', '能耗分析', '校园专题', '能源费用', '告警与工单', '报表中心', '节能管理', '基础档案', '系统管理']) {
+        expect(container.textContent).toContain(label);
+      }
+    }, { timeout: 10000 });
+
+    // 超级管理员可进入系统管理与费用等全部模块且不出现403
+    const systemPage = renderAt('/system/users');
+    await waitFor(() => expect(systemPage.container.textContent).toContain('用户、角色与数据范围'), { timeout: 10000 });
+    const costsPage = renderAt('/costs/pricing');
+    await waitFor(() => expect(costsPage.container.textContent).toContain('价格方案管理'), { timeout: 10000 });
+
+    act(() => {
+      useIdentity.getState().setUserId('U-ZHANG');
+    });
+    await waitFor(() => expect(container.textContent).toContain('后勤能源主管'), { timeout: 10000 });
+  }, 30000);
 });

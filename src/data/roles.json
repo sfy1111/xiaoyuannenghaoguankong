@@ -1,5 +1,15 @@
 [
   {
+    "id": "R-SUPER",
+    "name": "超级管理员",
+    "description": "拥有全部模块的查看、编辑与审批权限，用于演示前的整体巡检与维护（生产环境不应常设此类账号）",
+    "canView": ["dashboard", "monitoring", "analytics", "scenarios", "costs", "alarms", "reports", "efficiency", "foundation", "system"],
+    "canEdit": ["dashboard", "monitoring", "analytics", "scenarios", "costs", "alarms", "workOrders", "calendar", "targets", "alarmRules", "foundation", "system", "reports", "efficiency"],
+    "canApprove": ["dashboard", "monitoring", "analytics", "scenarios", "costs", "alarms", "calendar", "targets", "alarmRules", "foundation", "system", "dataQuality", "reports", "efficiency"],
+    "allowedCampusIds": ["C-E", "C-W"],
+    "restrictions": ["纯前端演示权限，不构成生产安全控制", "生产环境超级管理员须双人复核并全程审计"]
+  },
+  {
     "id": "R-LEADER",
     "name": "学校领导",
     "description": "关注全校总量、趋势、预算与节能成效",

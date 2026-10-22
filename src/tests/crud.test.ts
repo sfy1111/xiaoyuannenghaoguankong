@@ -2,10 +2,43 @@ import { describe, expect, it, beforeAll } from 'vitest';
 import { getEntities } from '../services/repository';
 import { billRowOf } from '../services/costService';
 import { buildingSubitems, scopePointIds } from '../services/energyStats';
-import { useIdentity } from '../stores/identity';
+import { useIdentity, currentRole, canView, canEdit, canApprove, visibleCampusIds } from '../stores/identity';
+import { MENU } from '../app/menu';
 
 beforeAll(() => {
   useIdentity.getState().setUserId('U-ZHANG');
+});
+
+describe('超级管理员角色', () => {
+  it('可查看/操作/审批所有模块，覆盖全部界面', () => {
+    const ent = getEntities();
+    const superUser = ent.users.find((u) => u.id === 'U-SUPER');
+    expect(superUser).toBeTruthy();
+    expect(superUser!.roleId).toBe('R-SUPER');
+
+    useIdentity.getState().setUserId('U-SUPER');
+    const role = currentRole();
+    expect(role.name).toBe('超级管理员');
+
+    // 菜单全部模块可见
+    const allModules = MENU.map((g) => g.module);
+    expect(allModules.every((m) => canView(m))).toBe(true);
+    // 可编辑与可审批覆盖所有模块及能力键
+    expect(allModules.every((m) => canEdit(m))).toBe(true);
+    expect(allModules.every((m) => canApprove(m))).toBe(true);
+    expect(canEdit('workOrders')).toBe(true);
+    expect(canApprove('dataQuality')).toBe(true);
+    // 数据范围为全部校区
+    expect(visibleCampusIds()).toEqual(['C-E', 'C-W']);
+    // 菜单组数量与系统一致（无被过滤模块）
+    expect(MENU.every((g) => canView(g.module))).toBe(true);
+    useIdentity.getState().setUserId('U-ZHANG');
+  });
+
+  it('内置超级管理员用户对旧浏览器持久化状态仍可见（ID 合并）', () => {
+    const ent = getEntities();
+    expect(ent.users.some((u) => u.id === 'U-SUPER' && u.account === 'superadmin')).toBe(true);
+  });
 });
 
 describe('用户管理 CRUD', () => {
