@@ -8,6 +8,8 @@ import {
 import { getSeries, hourIndexOf, hourTimestamp, TOTAL_HOURS, TOTAL_DAYS, dateOfDay, qualityOfCode, QC, dayIndexOf } from './telemetry';
 import { getEntities } from './repository';
 import { isOpenHour, resolveDay, openHoursFor } from '../domain/calendar';
+import { lastNDays, rangeMonths } from '../domain/time';
+import dayjs from 'dayjs';
 import { ALL_ENERGY_TYPES } from '../domain/units';
 
 export interface StatScope {
@@ -460,3 +462,52 @@ export function hasEnergyData(energy: EnergyType, scope: StatScope): boolean {
 }
 
 export const SUPPORTED_ENERGY = ALL_ENERGY_TYPES;
+
+/**
+ * 统计区间驱动的趋势序列：让页面所有数据面板随“按日/按月/按年”整体切换。
+ * - 按日：近30日日粒度
+ * - 按月：近12月月粒度
+ * - 按年：所选年度逐月（按数据窗口裁剪并注明）
+ */
+export function trendSeriesForMode(
+  energy: EnergyType,
+  scope: StatScope,
+  dateMode: 'day' | 'month' | 'year',
+  anchor: string,
+): { rows: { date: string; total: number }[]; windowLabel: string; note?: string } {
+  const WINDOW_START_MONTH = '2025-09';
+  const WINDOW_END_MONTH = '2026-10';
+  if (dateMode === 'day') {
+    const days = lastNDays(anchor, 30);
+    return { rows: scopeDaily(energy, scope, days[0], anchor), windowLabel: '近30日' };
+  }
+  if (dateMode === 'month') {
+    const end = anchor.slice(0, 7);
+    let start = dayjs(end + '-01').subtract(11, 'month').format('YYYY-MM');
+    if (start < WINDOW_START_MONTH) start = WINDOW_START_MONTH;
+    const months = rangeMonths(start, end);
+    return {
+      rows: scopeMonthly(energy, scope, months),
+      windowLabel: '近12月',
+      note: months.length < 12 ? `数据窗口自${WINDOW_START_MONTH}起，仅展示可得月份` : undefined,
+    };
+  }
+  const year = anchor.slice(0, 4);
+  let start = `${year}-01`;
+  let end = `${year}-12`;
+  if (start < WINDOW_START_MONTH) start = WINDOW_START_MONTH;
+  if (end > WINDOW_END_MONTH) end = WINDOW_END_MONTH;
+  const months = rangeMonths(start, end);
+  return {
+    rows: scopeMonthly(energy, scope, months),
+    windowLabel: `${year}年逐月`,
+    note: start !== `${year}-01` || end !== `${year}-12`
+      ? `数据窗口 2025-09 至 2026-10-21，年度按可得期间编制`
+      : undefined,
+  };
+}
+
+/** 趋势图 x 轴标签：日粒度 MM-DD，月粒度 M月（跨年仍可由 tooltip/标题定位年份） */
+export function trendXLabel(date: string): string {
+  return date.length === 7 ? `${date.slice(5)}月` : date.slice(5);
+}

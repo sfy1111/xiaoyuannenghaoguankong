@@ -8,16 +8,16 @@ import StatCard from '../../components/StatCard';
 import RangeModeControl from '../../components/RangeModeControl';
 import { ChartCard, EnergyLineChart, EnergyPieChart } from '../../components/charts';
 import { IncompleteNote, AlarmStatusTag, SeverityTag } from '../../components/StatusTags';
-import { useFilters, currentRange, DATA_END } from '../../stores/filters';
+import { useFilters, currentRange } from '../../stores/filters';
 import { userScope, visibleBuildings, visibleCampusIds } from '../../stores/identity';
 import { getEntities, META } from '../../services/repository';
 import {
-  scopeUsage, scopeDaily, buildingSubitems, boundaryNote,
+  scopeUsage, buildingSubitems, boundaryNote, trendSeriesForMode, trendXLabel,
 } from '../../services/energyStats';
 import { campusMonthlyEstimate } from '../../services/costService';
 import { pctChange } from '../../domain/analysis';
 import { CATEGORY_LABEL, ENERGY_COLOR, ENERGY_LABEL, ENERGY_UNIT, fmtInt } from '../../domain/units';
-import { lastNDays, shiftDay, monthOf, daysBetween } from '../../domain/time';
+import { shiftDay, monthOf, daysBetween } from '../../domain/time';
 
 export default function CampusOverviewPage() {
   const navigate = useNavigate();
@@ -48,9 +48,8 @@ export default function CampusOverviewPage() {
     const waterCost = estimate.water?.amount ?? 0;
     const gasCost = estimate.gas?.amount ?? 0;
 
-    const days30 = lastNDays(DATA_END, 30);
-    const elecDaily = scopeDaily('electricity', scope, days30[0], days30[29]);
-    const waterDaily = scopeDaily('water', scope, days30[0], days30[29]);
+    const trendElec = trendSeriesForMode('electricity', scope, dateMode, date);
+    const trendWater = trendSeriesForMode('water', scope, dateMode, date);
 
     const buildings = visibleBuildings();
     const buildingRank = buildings
@@ -106,12 +105,12 @@ export default function CampusOverviewPage() {
     return {
       elec, water, gas, elecBase, waterBase, gasBase,
       elecCost, waterCost, gasCost,
-      elecDaily, waterDaily, days30,
+      trendElec, trendWater,
       buildingRank, categoryPie,
       activeAlarms, openWorkOrders, pendingCorrections, pendingBills,
       recentPoints, overallCoverage,
     };
-  }, [range, scope, dateMode, campusId, entities]);
+  }, [range, scope, dateMode, date, campusId, entities]);
 
   const trendLabel = dateMode === 'day' ? '上周同期' : '上月';
 
@@ -189,15 +188,15 @@ export default function CampusOverviewPage() {
 
       <div className="chart-grid c2">
         <ChartCard
-          title={`近30日用电趋势（${campusId === 'all' ? '全校' : '当前校区'}）`}
-          note={stats.elecDaily.some((r) => r.incomplete) ? '橙色区间含缺失/估算/无效样本，缺失不按0计' : undefined}
+          title={`${stats.trendElec.windowLabel}用电趋势（${campusId === 'all' ? '全校' : '当前校区'}）`}
+          note={stats.trendElec.note ?? '曲线断开处为缺失样本，缺失不按0计'}
           height={280}
         >
           <EnergyLineChart
-            x={stats.elecDaily.map((r) => r.date.slice(5))}
+            x={stats.trendElec.rows.map((r) => trendXLabel(r.date))}
             series={[{
-              name: '日用电量（kWh）',
-              data: stats.elecDaily.map((r) => (r.total > 0 ? Math.round(r.total) : null)),
+              name: dateMode === 'day' ? '日用电量（kWh）' : '用电量（kWh）',
+              data: stats.trendElec.rows.map((r) => (r.total > 0 ? Math.round(r.total) : null)),
               color: ENERGY_COLOR.electricity,
               area: true,
             }]}
@@ -207,15 +206,15 @@ export default function CampusOverviewPage() {
           />
         </ChartCard>
         <ChartCard
-          title="近30日用水趋势"
-          note={stats.waterDaily.some((r) => r.incomplete) ? '存在缺失/估算样本时段' : undefined}
+          title={`${stats.trendWater.windowLabel}用水趋势`}
+          note={stats.trendWater.note}
           height={280}
         >
           <EnergyLineChart
-            x={stats.waterDaily.map((r) => r.date.slice(5))}
+            x={stats.trendWater.rows.map((r) => trendXLabel(r.date))}
             series={[{
-              name: '日用水量（m³）',
-              data: stats.waterDaily.map((r) => (r.total > 0 ? Math.round(r.total) : null)),
+              name: dateMode === 'day' ? '日用水量（m³）' : '用水量（m³）',
+              data: stats.trendWater.rows.map((r) => (r.total > 0 ? Math.round(r.total) : null)),
               color: ENERGY_COLOR.water,
               area: true,
             }]}
@@ -268,10 +267,10 @@ export default function CampusOverviewPage() {
       </div>
 
       <div className="chart-grid c3">
-        <ChartCard title="建筑类型用电构成" note="同单位（kWh）构成占比" height={300}>
+        <ChartCard title={`建筑类型用电构成（${range.label}）`} note="同单位（kWh）构成占比" height={300}>
           <EnergyPieChart data={stats.categoryPie} unit="kWh" height={290} />
         </ChartCard>
-        <Card size="small" title={<span style={{ fontSize: 14, fontWeight: 600 }}>校区对比</span>} styles={{ body: { padding: '8px 12px' } }}>
+        <Card size="small" title={<span style={{ fontSize: 14, fontWeight: 600 }}>校区对比（{range.label}）</span>} styles={{ body: { padding: '8px 12px' } }}>
           <Table
             size="small"
             rowKey="key"

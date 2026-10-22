@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import type { EChartsOption } from 'echarts';
 import RangeModeControl from '../../components/RangeModeControl';
 import { getEntities, META } from '../../services/repository';
-import { scopeDaily, scopeUsage, latestPowerKw, aggregateHours, hourRangeOf } from '../../services/energyStats';
+import { scopeDaily, scopeUsage, latestPowerKw, aggregateHours, hourRangeOf, trendSeriesForMode, trendXLabel } from '../../services/energyStats';
 import { electricityTouDaily } from '../../services/costService';
 import { nightFlowRows } from '../../services/energyStats';
 import { useFilters, DATA_END, currentRange, syncFiltersToUrl } from '../../stores/filters';
@@ -86,25 +86,29 @@ export default function EnergyScreenPage() {
 
   const trend = useMemo(() => {
     if (tab === 'thermal') {
-      const cooling = scopeDaily('cooling', scope, days30[0], days30[29]);
-      const heat = scopeDaily('heat', scope, days30[0], days30[29]);
+      const cooling = trendSeriesForMode('cooling', scope, dateMode, date);
+      const heat = trendSeriesForMode('heat', scope, dateMode, date);
       return {
-        x: cooling.map((r) => r.date.slice(5)),
+        x: cooling.rows.map((r) => trendXLabel(r.date)),
         series: [
-          { name: '供冷量', data: cooling.map((r) => (r.total > 0 ? Math.round(r.total) : null)), color: PALETTE.thermal },
-          { name: '供热量', data: heat.map((r) => (r.total > 0 ? Math.round(r.total) : null)), color: '#ff7875' },
+          { name: '供冷量', data: cooling.rows.map((r) => (r.total > 0 ? Math.round(r.total) : null)), color: PALETTE.thermal },
+          { name: '供热量', data: heat.rows.map((r) => (r.total > 0 ? Math.round(r.total) : null)), color: '#ff7875' },
         ],
         unit: 'kWh',
+        windowLabel: cooling.windowLabel,
+        note: cooling.note,
       };
     }
     const energy = tab as EnergyType;
-    const rows = scopeDaily(energy, scope, days30[0], days30[29]);
+    const rows = trendSeriesForMode(energy, scope, dateMode, date);
     return {
-      x: rows.map((r) => r.date.slice(5)),
-      series: [{ name: `日${ENERGY_LABEL[energy]}量`, data: rows.map((r) => (r.total > 0 ? Math.round(r.total) : null)), color: tab === 'electricity' ? PALETTE.electricity : tab === 'water' ? PALETTE.water : PALETTE.gas }],
+      x: rows.rows.map((r) => trendXLabel(r.date)),
+      series: [{ name: `${ENERGY_LABEL[energy]}量`, data: rows.rows.map((r) => (r.total > 0 ? Math.round(r.total) : null)), color: tab === 'electricity' ? PALETTE.electricity : tab === 'water' ? PALETTE.water : PALETTE.gas }],
       unit: energy === 'electricity' ? 'kWh' : 'm³',
+      windowLabel: rows.windowLabel,
+      note: rows.note,
     };
-  }, [tab, scope, days30]);
+  }, [tab, scope, dateMode, date]);
 
   const rank = useMemo(() => {
     if (tab === 'thermal') {
@@ -243,7 +247,7 @@ export default function EnergyScreenPage() {
 
         <div className="screen-charts" style={{ flex: 1 }}>
           <div className="screen-card" style={{ display: 'flex', flexDirection: 'column' }}>
-            <div className="screen-card-title">近30日{tab === 'thermal' ? '冷热量' : ENERGY_LABEL[tab as EnergyType]}趋势</div>
+            <div className="screen-card-title">{trend.windowLabel}{tab === 'thermal' ? '冷热量' : ENERGY_LABEL[tab as EnergyType]}趋势{trend.note ? `（${trend.note}）` : ''}</div>
             <ReactECharts
               style={{ flex: 1, minHeight: 240 }}
               notMerge
