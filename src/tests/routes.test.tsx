@@ -87,6 +87,7 @@ const ROUTES: { path: string; expectText: string }[] = [
   { path: '/efficiency/targets', expectText: '节能目标与能耗定额' },
   { path: '/efficiency/projects', expectText: '节能措施与项目管理' },
   { path: '/efficiency/evaluation', expectText: '节能公示与管理考核' },
+  { path: '/efficiency/carbon', expectText: '碳排放核算（范围一/范围二）' },
   { path: '/base/buildings', expectText: '校区与建筑档案' },
   { path: '/base/departments', expectText: '组织责任单位与责任归属' },
   { path: '/base/calendar', expectText: '学年日历与开放时间管理' },

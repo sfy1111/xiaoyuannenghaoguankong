@@ -141,6 +141,20 @@ export interface BudgetAdjustment {
   adjustedBy: string; adjustedAt: string;
 }
 
+/** 二氧化碳排放因子（可配置，来源与适用期随因子维护） */
+export interface CarbonFactor {
+  id: string;
+  name: string;
+  energyType: 'electricity' | 'gas';
+  /** 因子数值，按 usageUnit 语义使用：electricity 为 tCO₂/MWh；gas 为 tCO₂/万m³ */
+  value: number;
+  usageUnit: string;
+  scope: string;
+  source: string;
+  version: string;
+  note?: string;
+}
+
 export interface AlarmTimelineItem { time: string; actor: string; action: string; note: string; }
 
 export interface Alarm {

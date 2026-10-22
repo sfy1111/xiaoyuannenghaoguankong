@@ -97,6 +97,7 @@ export const MENU: MenuGroup[] = [
       { key: '/efficiency/targets', label: '节能目标与定额', module: 'efficiency' },
       { key: '/efficiency/projects', label: '节能措施与项目', module: 'efficiency' },
       { key: '/efficiency/evaluation', label: '节能公示与考核', module: 'efficiency' },
+      { key: '/efficiency/carbon', label: '碳排放核算', module: 'efficiency' },
     ],
   },
   {

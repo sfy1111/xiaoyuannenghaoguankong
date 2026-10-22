@@ -25,11 +25,12 @@ import usersJson from '../data/users.json';
 import auditLogsJson from '../data/auditLogs.json';
 import integrationsJson from '../data/integrations.json';
 import projectsJson from '../data/energyProjects.json';
+import carbonFactorsJson from '../data/carbonFactors.json';
 import { telemetrySeedCorrections, setTelemetryProviders, invalidateTelemetry } from './telemetry';
 import type {
-  Alarm, AlarmRule, AuditLog, Building, BuildingDeptRelation, BudgetAdjustment, CampusCalendarData, Campus, DataCorrection,
-  Department, EnergyBill, EnergyProject, EnergyType, Floor, IotCandidate, IotGateway, IntegrationEndpoint, Meter,
-  MeterRelation, MeteringPoint, PricePlan, Semester, ExamWeek, SpecialDay, TargetEntry, User, WorkOrder,
+  Alarm, AlarmRule, AuditLog, Building, BuildingDeptRelation, BudgetAdjustment, CampusCalendarData, Campus, CarbonFactor,
+  DataCorrection, Department, EnergyBill, EnergyProject, EnergyType, Floor, IotCandidate, IotGateway, IntegrationEndpoint,
+  Meter, MeterRelation, MeteringPoint, PricePlan, Semester, ExamWeek, SpecialDay, TargetEntry, User, WorkOrder,
 } from '../domain/types';
 
 export const META = meta as {
@@ -65,6 +66,7 @@ export interface EntityCollections {
   corrections: DataCorrection[];
   projects: EnergyProject[];
   budgetAdjustments: BudgetAdjustment[];
+  carbonFactors: CarbonFactor[];
 }
 
 export const budget = budgetJson as typeof budgetJson & { monthlyBudget: { month: string; electricity: number; water: number; gas: number }[] };
@@ -97,6 +99,7 @@ function baseCollections(): EntityCollections {
     corrections: JSON.parse(JSON.stringify(telemetrySeedCorrections)) as DataCorrection[],
     projects: JSON.parse(JSON.stringify(projectsJson)) as unknown as EnergyProject[],
     budgetAdjustments: [] as BudgetAdjustment[],
+    carbonFactors: JSON.parse(JSON.stringify((carbonFactorsJson as unknown as { factors: CarbonFactor[] }).factors)) as CarbonFactor[],
   };
 }
 
@@ -105,7 +108,7 @@ const PERSISTED_KEYS: (keyof EntityCollections)[] = [
   'buildings', 'floors', 'departments', 'buildingDeptRelations', 'meters', 'meteringPoints',
   'meterRelations', 'iotGateways', 'iotCandidates', 'calendar', 'prices', 'energyBills',
   'alarmRules', 'alarms', 'workOrders', 'targets', 'users', 'auditLogs', 'integrations', 'corrections',
-  'projects', 'budgetAdjustments',
+  'projects', 'budgetAdjustments', 'carbonFactors',
 ];
 
 interface EntityActions {
@@ -163,6 +166,7 @@ interface EntityActions {
   saveProject(project: Omit<EnergyProject, 'id'> & { id?: string }): EnergyProject | null;
   archiveProject(id: string, evaluation: string, evidence?: string): void;
   adjustBudget(month: string, energyType: 'electricity' | 'water' | 'gas', amount: number, reason: string): void;
+  updateCarbonFactor(id: string, value: number, reason: string): boolean;
   resetDemo(): void;
 }
 
@@ -213,6 +217,11 @@ export const useEntities = create<EntityStore>((set, get) => {
   if (persisted?.users) {
     const persistedIds = new Set(persisted.users.map((u) => u.id));
     initial.users = [...persisted.users, ...base.users.filter((u) => !persistedIds.has(u.id))];
+  }
+  // 排放因子同样按 ID 合并：JSON 新增/修订因子对旧浏览器可见，本地维护值优先
+  if (persisted?.carbonFactors) {
+    const factorIds = new Set(persisted.carbonFactors.map((f) => f.id));
+    initial.carbonFactors = [...persisted.carbonFactors, ...base.carbonFactors.filter((f) => !factorIds.has(f.id))];
   }
 
   const withAudit = (
@@ -841,6 +850,18 @@ export const useEntities = create<EntityStore>((set, get) => {
       set({ budgetAdjustments: [adj, ...state.budgetAdjustments] });
       withAudit('费用管理', '预算调整', `${month}/${energyType}`, `调整为 ${adj.amount} 元；原因：${reason}；原预算版本保留（预算调整记录 ${adj.id}）`);
       persist(get());
+    },
+
+    updateCarbonFactor(id, value, reason) {
+      const state = get();
+      const factor = state.carbonFactors.find((f) => f.id === id);
+      if (!factor || !Number.isFinite(value) || value <= 0) return false;
+      set({
+        carbonFactors: state.carbonFactors.map((f) => (f.id === id ? { ...f, value } : f)),
+      });
+      withAudit('节能管理', '维护排放因子', id, `${factor.name}由 ${factor.value} 调整为 ${value}；理由：${reason}；碳排放测算即时按新因子重算`);
+      persist(get());
+      return true;
     },
 
     resetDemo() {

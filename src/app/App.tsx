@@ -39,6 +39,7 @@ import PublicInstitutionsPage from '../pages/reports/PublicInstitutionsPage';
 import EfficiencyTargetsPage from '../pages/efficiency/TargetsPage';
 import EfficiencyProjectsPage from '../pages/efficiency/ProjectsPage';
 import EfficiencyEvaluationPage from '../pages/efficiency/EvaluationPage';
+import CarbonPage from '../pages/efficiency/CarbonPage';
 import FoundationBuildingsPage from '../pages/foundation/BuildingsPage';
 import FoundationDepartmentsPage from '../pages/foundation/DepartmentsPage';
 import FoundationCalendarPage from '../pages/foundation/CalendarPage';
@@ -91,6 +92,7 @@ export function AppRouter() {
         <Route path="/efficiency/targets" element={<RequireModule module="efficiency"><EfficiencyTargetsPage /></RequireModule>} />
         <Route path="/efficiency/projects" element={<RequireModule module="efficiency"><EfficiencyProjectsPage /></RequireModule>} />
         <Route path="/efficiency/evaluation" element={<RequireModule module="efficiency"><EfficiencyEvaluationPage /></RequireModule>} />
+        <Route path="/efficiency/carbon" element={<RequireModule module="efficiency"><CarbonPage /></RequireModule>} />
         <Route path="/base/buildings" element={<RequireModule module="foundation"><FoundationBuildingsPage /></RequireModule>} />
         <Route path="/base/departments" element={<RequireModule module="foundation"><FoundationDepartmentsPage /></RequireModule>} />
         <Route path="/base/calendar" element={<RequireModule module="foundation"><FoundationCalendarPage /></RequireModule>} />

@@ -14,6 +14,7 @@ import { getEntities, META } from '../../services/repository';
 import {
   scopeUsage, scopeDaily, buildingSubitems, boundaryNote,
 } from '../../services/energyStats';
+import { carbonSummary } from '../../services/carbonService';
 import { campusMonthlyEstimate } from '../../services/costService';
 import { pctChange } from '../../domain/analysis';
 import { CATEGORY_LABEL, ENERGY_COLOR, ENERGY_LABEL, ENERGY_UNIT, fmtInt } from '../../domain/units';
@@ -51,6 +52,7 @@ export default function CampusOverviewPage() {
     const days30 = lastNDays(DATA_END, 30);
     const elecDaily = scopeDaily('electricity', scope, days30[0], days30[29]);
     const waterDaily = scopeDaily('water', scope, days30[0], days30[29]);
+    const carbon = carbonSummary(scope.campusId, range.from, range.to);
 
     const buildings = visibleBuildings();
     const buildingRank = buildings
@@ -105,7 +107,7 @@ export default function CampusOverviewPage() {
 
     return {
       elec, water, gas, elecBase, waterBase, gasBase,
-      elecCost, waterCost, gasCost,
+      elecCost, waterCost, gasCost, carbon,
       elecDaily, waterDaily, days30,
       buildingRank, categoryPie,
       activeAlarms, openWorkOrders, pendingCorrections, pendingBills,
@@ -170,6 +172,14 @@ export default function CampusOverviewPage() {
           sub={<span>电 {fmtInt(stats.elecCost)} ＋ 水 {fmtInt(stats.waterCost)} ＋ 气 {fmtInt(stats.gasCost)}</span>}
           qualityNote="电费仅含分时电度费，不含基本电费与税费"
           onClick={() => navigate('/costs/overview')}
+        />
+        <StatCard
+          label="本期碳排放（测算）"
+          value={stats.carbon?.total ?? null}
+          unit={stats.carbon ? 'tCO₂' : undefined}
+          decimals={1}
+          sub={stats.carbon ? '范围一+范围二 · 排放因子见碳排放核算页' : '未配置排放因子，不展示测算值'}
+          onClick={() => navigate('/efficiency/carbon')}
         />
         <StatCard
           label="待处理异常事件"

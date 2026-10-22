@@ -6,6 +6,7 @@ import ExportButton from '../../components/ExportButton';
 import { FilterBar } from '../../components/FilterBar';
 import { getEntities, studentsOfMonth } from '../../services/repository';
 import { scopeUsage } from '../../services/energyStats';
+import { carbonSummary } from '../../services/carbonService';
 import { fmtInt } from '../../domain/units';
 import { monthRange } from '../../domain/time';
 
@@ -38,7 +39,8 @@ export default function PublicInstitutionsPage() {
     const students = studentsOfMonth(anchor.slice(0, 7));
     const area = entities.buildings.filter((b) => b.status === 'active').reduce((a, b) => a + b.assessmentArea, 0);
     const campusArea = entities.campuses.reduce((a, c) => a + c.area, 0);
-    return { from, to, label, elec, water, gas, cooling, heat, students, area, campusArea };
+    const carbon = carbonSummary('all', from, to);
+    return { from, to, label, elec, water, gas, cooling, heat, students, area, campusArea, carbon };
   }, [tab, anchor, entities]);
 
   const exportSheet = {
@@ -100,6 +102,7 @@ export default function PublicInstitutionsPage() {
             { item: '供冷量（内部转换）', value: fmtInt(Math.round(data.cooling.total ?? 0)), unit: 'kWh', note: '能源站产出侧；不与购入电量相加，防止重复统计' },
             { item: '供热量（内部转换）', value: fmtInt(Math.round(data.heat.total ?? 0)), unit: 'kWh', note: '能源站产出侧；不与购入电量相加' },
             { item: '综合能源消费量', value: <Tag color="orange">未填报</Tag>, unit: 'tce', note: '未配置折标系数与统计边界，不提供折标数值' },
+            { item: '二氧化碳排放（测算）', value: data.carbon ? data.carbon.total.toFixed(1) : <Tag color="orange">未配置因子</Tag>, unit: 'tCO₂', note: data.carbon ? `范围一（天然气燃烧）${data.carbon.scope1.co2.toFixed(1)} ＋ 范围二（外购电力）${data.carbon.scope2.co2.toFixed(1)}；排放因子来源见「节能管理→碳排放核算」` : '排放因子未配置时不展示测算值' },
             { item: '生均用电量', value: data.students && data.elec.total ? (data.elec.total / data.students.total).toFixed(1) : '不可计算', unit: 'kWh/生', note: `分母：${anchor.slice(0, 7)}月注册学生 ${data.students ? fmtInt(data.students.total) : '—'} 人` },
             { item: '单位面积用电', value: data.elec.total ? (data.elec.total / data.area).toFixed(2) : '不可计算', unit: 'kWh/m²', note: `分母：考核建筑面积 ${fmtInt(data.area)} m²` },
           ]}
