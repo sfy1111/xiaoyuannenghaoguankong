@@ -28,6 +28,15 @@ const AXIS_STYLE = {
   axisLine: { lineStyle: { color: 'rgba(0,0,0,0.18)' } },
 };
 
+/** y 轴单位名称（如 kWh）绘制于轴顶上方：需为 nameGap+文字高度 预留空间，否则被画布裁切 */
+const GRID_TOP_WITH_LEGEND = 54;
+const GRID_TOP_NO_LEGEND = 34;
+const AXIS_NAME_STYLE = {
+  color: 'rgba(0,0,0,0.45)',
+  fontSize: 11,
+  nameGap: 14,
+};
+
 function tooltipFormatter(params: unknown, unit?: string): string {
   const list = params as { name: string; marker: string; seriesName: string; value: number | null | '-' }[];
   if (!Array.isArray(list)) return '';
@@ -46,11 +55,11 @@ export function EnergyLineChart({ x, series, unit, height = 300, showLegend = tr
   if (!hasAnyData(series)) return <Empty description="暂无有效数据" style={{ padding: 32 }} />;
   const option: EChartsOption = {
     color: series.map((s) => s.color ?? ENERGY_COLOR.electricity),
-    grid: { left: 56, right: 24, top: showLegend ? 40 : 24, bottom: 30 },
+    grid: { left: 60, right: 24, top: showLegend ? GRID_TOP_WITH_LEGEND : GRID_TOP_NO_LEGEND, bottom: 30 },
     tooltip: { trigger: 'axis', valueFormatter: undefined, formatter: (p) => tooltipFormatter(p, unit) },
     legend: showLegend ? { top: 4, textStyle: { fontSize: 12 } } : undefined,
     xAxis: { type: 'category', data: x, ...AXIS_STYLE, boundaryGap: false },
-    yAxis: { type: 'value', name: unit, nameTextStyle: { color: 'rgba(0,0,0,0.45)' }, axisLabel: { ...AXIS_STYLE.axisLabel, formatter: (v: number) => v >= 10000 ? `${Math.round(v / 1000)}k` : String(v) }, splitLine: { lineStyle: { color: 'rgba(0,0,0,0.06)' } } },
+    yAxis: { type: 'value', name: unit, nameTextStyle: { color: AXIS_NAME_STYLE.color, fontSize: AXIS_NAME_STYLE.fontSize }, nameGap: AXIS_NAME_STYLE.nameGap, axisLabel: { ...AXIS_STYLE.axisLabel, formatter: (v: number) => v >= 10000 ? `${Math.round(v / 1000)}k` : String(v) }, splitLine: { lineStyle: { color: 'rgba(0,0,0,0.06)' } } },
     series: series.map((s) => ({
       name: s.name,
       type: 'line' as const,
@@ -69,11 +78,11 @@ export function EnergyBarChart({ x, series, unit, height = 300, showLegend = tru
   if (!hasAnyData(series)) return <Empty description="暂无有效数据" style={{ padding: 32 }} />;
   const option: EChartsOption = {
     color: series.map((s) => s.color ?? ENERGY_COLOR.electricity),
-    grid: { left: 56, right: 24, top: showLegend ? 40 : 24, bottom: 30 },
+    grid: { left: 60, right: 24, top: showLegend ? GRID_TOP_WITH_LEGEND : GRID_TOP_NO_LEGEND, bottom: 30 },
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: (p) => tooltipFormatter(p, unit) },
     legend: showLegend ? { top: 4, textStyle: { fontSize: 12 } } : undefined,
     xAxis: { type: 'category', data: x, ...AXIS_STYLE },
-    yAxis: { type: 'value', name: unit, nameTextStyle: { color: 'rgba(0,0,0,0.45)' }, axisLabel: { ...AXIS_STYLE.axisLabel, formatter: (v: number) => v >= 10000 ? `${Math.round(v / 1000)}k` : String(v) }, splitLine: { lineStyle: { color: 'rgba(0,0,0,0.06)' } } },
+    yAxis: { type: 'value', name: unit, nameTextStyle: { color: AXIS_NAME_STYLE.color, fontSize: AXIS_NAME_STYLE.fontSize }, nameGap: AXIS_NAME_STYLE.nameGap, axisLabel: { ...AXIS_STYLE.axisLabel, formatter: (v: number) => v >= 10000 ? `${Math.round(v / 1000)}k` : String(v) }, splitLine: { lineStyle: { color: 'rgba(0,0,0,0.06)' } } },
     series: series.map((s) => ({
       name: s.name,
       type: 'bar' as const,

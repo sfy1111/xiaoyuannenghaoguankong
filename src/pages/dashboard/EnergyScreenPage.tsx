@@ -247,11 +247,11 @@ export default function EnergyScreenPage() {
               style={{ flex: 1, minHeight: 240 }}
               notMerge
               option={screenOption({
-                grid: { left: 64, right: 24, top: 44, bottom: 30 },
+                grid: { left: 64, right: 24, top: 54, bottom: 30 },
                 tooltip: { trigger: 'axis' },
                 legend: { top: 4, textStyle: { color: PALETTE.text } },
                 xAxis: { type: 'category', data: trend.x, ...axisCommon },
-                yAxis: { type: 'value', name: trend.unit, nameTextStyle: { color: PALETTE.axis }, ...axisCommon },
+                yAxis: { type: 'value', name: trend.unit, nameGap: 14, nameTextStyle: { color: PALETTE.axis, fontSize: 11 }, ...axisCommon },
                 series: trend.series.map((s) => ({
                   name: s.name,
                   type: 'line',
