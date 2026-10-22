@@ -21,7 +21,7 @@ function HeaderControls() {
 
   return (
     <Space size={4} wrap style={{ justifyContent: 'flex-end', width: '100%' }}>
-      <Tag color="blue" style={{ marginInlineEnd: 4 }}>数据更新 {dayjs(META.asOf).format('MM-DD HH:mm')}</Tag>
+      <Tag color="blue" className="header-asof" style={{ marginInlineEnd: 4, whiteSpace: 'nowrap' }}>数据更新 {dayjs(META.asOf).format('MM-DD HH:mm')}</Tag>
       <Tooltip title="告警中心">
         <Badge count={pendingAlarms} size="small">
           <BellOutlined style={{ fontSize: 17, color: pendingAlarms > 0 ? '#fa8c16' : undefined }} onClick={() => navigate('/alarms')} />
@@ -63,11 +63,13 @@ function RoleSwitcher() {
         },
       }}
     >
-      <Space style={{ cursor: 'pointer' }} size={6}>
+      <div className="role-switcher">
         <Avatar size={26} icon={<UserOutlined />} style={{ background: '#1668dc' }} />
-        <span>{user.name}</span>
-        <span className="muted small">{role.name}视角</span>
-      </Space>
+        <span className="role-switcher-name">{user.name}</span>
+        <Tooltip title={`${role.name}视角`}>
+          <span className="muted small role-switcher-role">{role.name}视角</span>
+        </Tooltip>
+      </div>
     </Dropdown>
   );
 }
@@ -177,18 +179,18 @@ export default function MainLayout() {
         />
       </Sider>
       <Layout>
-        <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', borderBottom: `1px solid ${token.colorBorderSecondary}` }}>
-          <Space size={8}>
+        <Header className="app-header">
+          <div className="header-left">
             <span
               onClick={() => setCollapsed(!collapsed)}
-              style={{ cursor: 'pointer', fontSize: 16, color: token.colorText }}
+              style={{ cursor: 'pointer', fontSize: 16, color: token.colorText, flex: '0 0 auto' }}
             >
               {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             </span>
-            <span style={{ fontWeight: 600, fontSize: 15 }}>{META.schoolName}</span>
-            <span className="muted small">统计区间：{label}</span>
-          </Space>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, minWidth: 0, flex: 1, justifyContent: 'flex-end' }}>
+            <span className="header-school">{META.schoolName}</span>
+            <span className="muted small header-range" title={`统计区间：${label}`}>统计区间：{label}</span>
+          </div>
+          <div className="header-right">
             <HeaderControls />
             <RoleSwitcher />
           </div>
