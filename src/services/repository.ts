@@ -93,7 +93,7 @@ function baseCollections(): EntityCollections {
     roles: rolesJson,
     users: [...(usersJson as unknown as User[])],
     auditLogs: [...(auditLogsJson as unknown as AuditLog[])],
-    integrations: JSON.parse(JSON.stringify(integrationsJson)) as unknown as IntegrationEndpoint[],
+    integrations: JSON.parse(JSON.stringify((integrationsJson as unknown as { endpoints: IntegrationEndpoint[] }).endpoints)) as unknown as IntegrationEndpoint[],
     corrections: JSON.parse(JSON.stringify(telemetrySeedCorrections)) as DataCorrection[],
     projects: JSON.parse(JSON.stringify(projectsJson)) as unknown as EnergyProject[],
     budgetAdjustments: [] as BudgetAdjustment[],
@@ -174,6 +174,11 @@ function loadPersisted(): Partial<EntityCollections> | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw) as { version: string; data: Partial<EntityCollections> };
     if (parsed.version !== META.dataVersion) return null;
+    // 兼容历史缺陷：早期版本曾把 integrations 整体对象持久化（应为 endpoints 数组），
+    // 非数组形态直接丢弃，回退使用修正后的基础数据
+    if (parsed.data?.integrations && !Array.isArray(parsed.data.integrations)) {
+      delete parsed.data.integrations;
+    }
     return parsed.data;
   } catch {
     return null;
